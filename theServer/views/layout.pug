@@ -17,16 +17,13 @@ html(lang="en-US")
 
     link(href='data:image/x-icon;', type='image/x-icon', rel='shortcut icon') 
     intercept-url(pattern="/favicon.ico" access="ROLE_ANONYMOUS")
-    <!-- link(href='/bootstrap/css/bootstrap.min.css', rel='stylesheet') -->
-    <!-- link(href='/css/main1.css', rel='stylesheet') -->
-    link(href='/css/styles.css', rel='stylesheet')
-    link(href='/css/mobileStyles.css', rel='stylesheet')
+    link(href='', rel='stylesheet')
+    link(href='', rel='stylesheet')
 
     block links
 
-    script(src='/jquery/jquery-min-3.2.1.js')
-    <!-- script(src='/bootstrap/js/bootstrap.min.js') -->
-    script(src='/javascripts/mobileSupportScripts.js')
+    script(src='')
+    script(src='')
 
     block headScripts
 
@@ -40,178 +37,54 @@ html(lang="en-US")
       webkitVersion = parseInt(webkitVersion, 10)
       if (webkitVersion >= 603 || !isSafari) {
         interactiveFormValidationEnabled = true
-      }
-  |
-  body#page-top
+      }     
+  |     
+  body#page-top.index
+    #skipnav
+      a(href='#maincontent') Skip to main content
+    // Navigation
+    nav#mainNav.navbar.navbar-default.navbar-fixed-top.navbar-custom
+      .container
+        // Brand and toggle get grouped for better mobile display
+        .navbar-header.page-scroll
+          button.navbar-toggle(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1')
+            span.sr-only Toggle navigation
+            |  Menu 
+            i.fa.fa-bars
+          |                     
+          a.navbar-brand(href='#page-top') Start Election App 2017
+        // Collect the nav links, forms, and other content for toggling
+        #bs-example-navbar-collapse-1.collapse.navbar-collapse
+          ul.nav.navbar-nav.navbar-right
+            li.hidden
+              a(href='#page-top')
+            |                         
+            li.page-scroll
+              a(href='#latest-news') Latest News
+            |                         
+            li.page-scroll
+              a(href='#about') About
+            |                         
+            li.page-scroll
+              a(href='#contact') Contact
+        // /.navbar-collapse
+      // /.container-fluid
+    // Header
     header
-      #navBackground
-      |        
-      .contentWrapper
-        img(id="openMenu", class="mobile menuIcon", src="/images/icon-openMenu.png")
-        |
-        img(id="closeMenu", class="mobile menuIcon", src="/images/icon-closeMenu.png")    
-        |
-        div.mainLogo             
-          img#indexMainLogo(src='/images/LOGO2016.png', alt='Election App 2017', itemprop='image', width='353', height='69')
-        |
+      #maincontent.container(tabindex='-1')
+        .row
+          .col-lg-12
+            img.img-responsive(src='', alt='')
+            |                         
+            .intro-text
+              h1.name Welcome To Election App 2017
+              |                             
+              hr
+              |                             
+              span Communicate with other Election App members!
 
-        if currentUser
-
-          nav
-            ul
-              li.current
-                a(href='/') HOME
-              |
-              li
-                a(href='/login') LOG IN
-              |
-              li
-                a(href='/signup') SIGN UP
-              |
-              li
-                a(href='/about') ABOUT
-              |
-              li
-                a(href='/team') TEAM
-              |
-              li
-                a(href='/contact') CONTACT
-              |
-              li
-                a(href='/membersonly') MEMBERS ONLY
-          |
-          nav.mobile
-            ul
-              li.current
-                a(href='/') HOME
-              |
-              li
-                a(href='/login') LOG IN
-              |
-              li
-                a(href='/signup') SIGN UP
-              |
-              li
-                a(href='/about') ABOUT
-              |
-              li
-                a(href='/team') TEAM
-              |
-              li
-                a(href='/contact') CONTACT
-              |
-              li
-                a(href='/membersonly') MEMBERS ONLY
-
-        else         
-
-          nav
-            ul     
-              li.current
-                a(href='/') HOME
-              |
-              li
-                a(href='/login') LOG IN
-              |
-              li
-                a(href='/signup') SIGN UP
-              |
-              li
-                a(href='/about') ABOUT
-              |
-              li
-                a(href='/team') TEAM
-              |
-              li
-                a(href='/contact') CONTACT
-              |
-              li
-                a(href='/membersonly') MEMBERS ONLY
-          |             
-          nav.mobile
-            ul
-              li.current
-                a(href='/') HOME
-              |
-              li
-                a(href='/login') LOG IN
-              |
-              li
-                a(href='/signup') SIGN UP
-              |
-              li
-                a(href='/about') ABOUT
-              |
-              li
-                a(href='/team') TEAM
-              |
-              li
-                a(href='/contact') CONTACT
-              |
-              li
-                a(href='/membersonly') MEMBERS ONLY!
-    |
-    main
-      block content
-    |
-    footer
-      .contentWrapper
-        #socialPages
-          a#twitterPage(href='', itemprop='sameas')
-            img(src='/images/socialMediaIcon-twitter.png', alt='Follow ElectionApp2017 on Twitter', width='29', height='29')
-          a#facebookPage(href='', itemprop='sameas')
-            img(src='/images/socialMediaIcon-facebook.png', alt='Follow ElectionApp2017 on Facebook', width='29', height='29')
-          a#instagramPage(href='', itemprop='sameas')
-            img(src='/images/socialMediaIcon-instagram.png', alt='Follow ElectionApp2017 on Instagram', width='29', height='29')
-        |   
-        nav
-          ul
-            li.current
-              a(href='/') HOME
-            |
-            li
-              a(href='/login') LOG IN
-            |
-            li
-              a(href='/signup') SIGN UP
-            |
-            li
-              a(href='/about') ABOUT
-            |
-            li
-              a(href='/team') TEAM
-            |
-            li
-              a(href='/contact') CONTACT
-            |
-            li
-              a(href='/membersonly') MEMBERS ONLY
-        |
-        p
-          | &copy;
-          span(itemprop='copyrightYear') 2016
-          |
-          |
-          span(itemscope='', itemtype='', itemprop='copyrightHolder', itemref='socialPages')
-            span#ownerInfo
-              meta(itemprop='logo', content='')
-              |          
-              meta(itemprop='url', content='')
-              |        
-              span(itemprop='name') ElectionApp2017
-              |  |
-              span(itemprop='description') The Election App for 2017
-              |  |
-              span(itemscope='', itemtype='', itemprop='address')
-                span(itemprop='streetAddress') 1616 West Street
-                | ,
-                span(itemprop='addressLocality') Boston
-                | ,
-                span(itemprop='addressRegion') NY
-                |
-                span(itemprop='postalCode') 10011
-        |  
-        p.mobile &copy; 2016 ElectionApp2017
+    block content
 
     block bodyScripts
       script(src='/javascripts/mobileSupportScripts.js')
+
