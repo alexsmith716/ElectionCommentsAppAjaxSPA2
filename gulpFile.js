@@ -1,0 +1,7 @@
+var gulp = require('gulp')
+var gulpSass = require('gulp-sass')
+var gulpHeader = require('gulp-header')
+var gulpCleanCss = require('gulp-clean-css')
+var gulpRename = require("gulp-rename")
+var gulpUglify = require('gulp-uglify')
+var browserSync = require('browser-sync').create()

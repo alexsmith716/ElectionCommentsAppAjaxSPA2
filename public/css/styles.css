@@ -1,0 +1,445 @@
+
+body {
+	margin: 0px;
+	padding: 0px;
+	font-family: "Roboto Slab", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 20px;
+}
+
+body * {
+	box-sizing: border-box;
+}
+
+header, nav, main, section, footer {
+	display: block;
+	position: relative;
+}
+
+header, section, footer, main {
+	width: 100%;
+}
+
+header, footer {
+	text-align: center;
+}
+
+main {
+	min-height: 500px;
+}
+
+main a, main a:link, main a:visited {
+	color: #414042;
+	outline: none;
+}
+main a:hover, main a:active {
+	color: #CF0A2C;
+}
+
+body .mobile {
+	display: none;
+}
+
+.verticalAlignBox {
+	display: inline-block;
+	height: 100%;
+	vertical-align: middle;
+	margin-right: -0.25em;
+}
+
+.contentWrapper {
+	max-width: 1024px;
+	padding: 0 10px;
+	margin: 0 auto;
+}
+
+.contentWrapper.fullWidth {
+	padding: 0 0;
+}
+
+/*******************************************************************************
+ * NAVIGATION STYLES
+ ******************************************************************************/
+nav ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+nav ul li {
+	display: inline-block;
+	padding-left: 25px;
+	line-height: 25px;
+}
+nav ul li:first-child {
+	padding-left: 0px;
+}
+
+nav li a, nav li a:visited {
+	text-decoration: none;
+}
+
+/*******************************************************************************
+ * HEADER STYLES
+ ******************************************************************************/
+header {
+	height: auto;
+}
+
+header #navBackground {
+	background: #ffffff;
+	height: 130px;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+}
+
+header * {
+	color: #0c5caa;
+	font-weight: bold;
+	font-size: 16px;
+}
+
+.mainLogo {
+	padding-top: 6px;
+	padding-bottom: 12px;
+}
+
+header nav {
+	padding-top: 2px;
+	padding-bottom: 16px;
+}
+
+header nav li.current a, header nav li a:hover, header nav li a:active {
+	border-bottom: 2px solid #0c5daa;
+}
+
+header #indexMainLogo {
+	position: relative;
+}
+
+/*******************************************************************************
+ * FOOTER STYLES
+ ******************************************************************************/
+footer {
+	background-color: #414042;
+	border-top: 2px solid #ea1b2a;
+	padding: 21px 0;
+}
+
+footer * {
+	color: #D1D3D4;
+	margin: 0;
+	font-size: 12px;
+}
+
+#socialPages a {
+	margin: 0 10px;
+}
+
+#socialPages a img {
+	border: 0;
+}
+
+footer nav {
+	margin: 18px 0 13px;
+}
+
+footer nav * {
+	font-size: 14px;
+}
+
+footer nav li.current a, footer nav li a:hover, footer nav li a:active {
+	text-decoration: underline;
+}
+
+
+/*******************************************************************************
+ * INDEX VIEW SECTION STYLES
+ ******************************************************************************/
+
+.header-section {
+	display: table;
+	height:500px;
+	background-position-y:24%;
+	background-image: url(/images/splashImage14.jpg);
+	background-size:cover;
+}
+
+
+/*******************************************************************************
+ * TOP SECTION STYLES
+ ******************************************************************************/
+
+#topSection {
+	border-bottom: 3px solid #CF0A2C;
+	text-align: center;
+}
+
+#topSection p {
+	max-width: 830px;
+	margin: 1em auto;
+	line-height: 36px;
+}
+
+#topSection h1 {
+	font-size: 30px;
+	font-weight: normal;
+	color: #58595B;
+}
+
+#topSection .buttonWrap {
+	padding-bottom: 35px;
+}
+
+#topSection div.button {
+	padding: 0 20px;
+}
+
+
+/*******************************************************************************
+ * BUTTON STYLES
+ ******************************************************************************/
+.button {
+	height: 48px;
+	border: 2px solid #CF0A2C;
+	color: #58595B;
+	background: #FFFFFF;
+	font-size: 19px;
+	line-height: 44px;
+	text-align: center;
+	display: inline-block;
+	margin: 15px 10px;
+	cursor: pointer!important;
+	font-weight: bold;
+	text-decoration: none;
+	outline: none;
+}
+.button.current {
+	cursor: default!important;
+}
+
+.button:hover, div.button.current {
+	background: #CF0A2C;
+	border: 2px solid #FFFFFF;
+	color: #FFFFFF;
+	background-clip: padding-box;
+}
+
+/*******************************************************************************
+ * EXPAND COLLAPSE SECTION STYLES
+ ******************************************************************************/
+
+.expandSection {
+	width: 100%;
+	display: inline-block;
+	border: 1px solid #CF0A2C;
+	border-top: 0px;
+	cursor: pointer;
+	position: relative;
+}
+.bodySection div.expandSection:first-of-type {
+	border-top: 0px;
+}
+.bodySection div.expandSection:last-of-type {
+	margin-bottom: -1px;
+}
+
+.expandSection.current {
+	border-top: 2px solid #CF0A2C;
+	border-bottom: 3px solid #CF0A2C;
+	cursor: default;
+}
+.bodySection div.expandSection:last-of-type {
+	margin-bottom: -3px;
+}
+
+.expandSection .expandTitle {
+	padding: 20px 40px;
+}
+
+.expandSection .expandTitle h1 {
+	margin: 0;
+	font-size: 34px;
+	font-weight: normal;
+}
+.expandSection.current .expandTitle h1 {
+	color: #CF0A2C;
+}
+
+.expandSection .expandContentWrap {
+	display: none;
+	padding: 0 56px;
+}
+.expandSection.current .expandContentWrap {
+	display: block;
+}
+
+.expandSection .expandContentWrap > p {
+	margin: 1em 0;
+}
+
+/*******************************************************************************
+ * FORM STYLES
+ ******************************************************************************/
+
+form {
+	width: 100%;
+	padding: 0 5%;
+}
+form table {
+	width: 100%;
+	border-collapse: collapse;
+}
+form td {
+	padding: 12px 0;
+}
+form td.sectionTitleCell, form td.labelCell {
+	text-align: right;
+	padding-right: 5px;
+	width: 30%;
+}
+form td.sectionTitleCell h1 {
+	margin: 8px 0 -12px;
+	font-size: 30px;
+	font-weight: normal;
+	color: #CF0A2C;
+}
+form td.labelCell {
+	vertical-align: middle;
+	font-size: 16px;
+}
+form td.inputCell {
+	padding-left: 5px;
+	width: 55%;
+	font-size: 16px;
+	position: relative;
+}
+form td.submitCell {
+	padding: 0;
+	text-align: center;
+}
+form td.submitCell.error {
+	font-size: 16px;
+	padding: 12px 0;
+}
+form input {
+	line-height: 35px;
+	position: relative;
+	vertical-align: middle;
+}
+form input[type="text"], form input[type="tel"], form input[type="email"],
+form textarea {
+	padding: 0 6px;
+	line-height: 29px;
+	height: 29px;
+	width: 100%;
+	border: 1px solid #CF0A2C;
+	font-size: 16px;
+	font-family: Arial, Helvetica, sans-serif;
+}
+form textarea {
+	height: 58px;
+}
+form input[type="text"].disabled {
+	background-color: white;
+}
+form input[type="button"] {
+	font-size: 16px;
+	height: 31px;
+	line-height: 27px;
+	padding: 0 20px;
+	width: 33%;
+	margin: 0 2% 0 0;
+	outline: none;
+}
+form .error {
+	color: #CF0A2C;
+}
+form input[type="submit"] {
+	padding: 0 20px;
+	margin: 0;
+}
+
+::-webkit-input-placeholder {
+    color: #FFFFFF;
+}
+:-moz-placeholder {
+   color: #FFFFFF;
+   opacity: 1;
+}
+::-moz-placeholder {
+   color: #FFFFFF;
+   opacity: 1;
+}
+:-ms-input-placeholder {
+    color: #FFFFFF;
+}
+
+.styledRadio {
+	float: left;
+}
+.styledRadio + label {
+	float: left;
+	margin: 0 12px 0 6px;
+}
+
+#formResponse {
+	text-align: center;
+}
+
+/*******************************************************************************
+ * CONTENT SECTION STYLES
+ ******************************************************************************/
+
+main .contentWrapper .bodySection, main .contentWrapper .bodySection.mobile.current {
+	display: none;
+}
+main .contentWrapper .bodySection.current {
+	display: block;
+}
+
+.bodySection {
+	margin: 20px 0;
+}
+
+.bodySection ul.dashStyle {
+	list-style-type: none;
+}
+
+.bodySection ul.dashStyle li {
+	text-indent: -13px;
+	font-size: 25px;
+	line-height: 46px;
+}
+
+/*******************************************************************************
+ * SOCIAL MEDIA BUTTON STYLES
+ ******************************************************************************/
+
+.sharing {
+	width: 100%;
+	padding: 0 0 20px;
+}
+
+.sharing .button {
+	margin-top: 0;
+	margin-bottom: 0;
+	line-height: 30px;
+	padding: 0 18px;
+	height: 34px;
+	font-size: 14px;
+	vertical-align: middle;
+}
+.sharing .button.fbShare, .sharing .button.twitterTweet {
+	border: 0px;
+	padding: 0px;
+	height: 28px;
+	background: #FFFFFF!important;
+}
+
+.sharing .button img {
+	height: 28px;
+	width: auto;
+}
+
