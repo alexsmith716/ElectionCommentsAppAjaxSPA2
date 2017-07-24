@@ -1,36 +1,29 @@
-extends layout
-
-block metas
-
-block title
-  title ThisGreatApp!
-
-block headScripts
-
-block bodyScripts
-
-block content
-
-  section(id="header", class="header-section current")
-    div(class="container")
-     div(class="row")
-
-  section(id="login-signup", class="login-signup-section")
-    div(class="container")
-     div(class="row")
-
-  section(id="about", class="about-section")
-    div(class="container")
-     div(class="row")
-
-  section(id="team", class="team-section")
-    div(class="container")
-     div(class="row")
-
-  section(id="contact", class="about-section")
-    div(class="container")
-     div(class="row")
-
-  section(id="members-only", class="members-only-section")
-    div(class="container")
-     div(class="row")
+// Page Content
+.container
+  // Latest News Grid Section
+  section#latest-news
+    .container
+      .row
+        .col-lg-12.text-center
+          h2 Latest News
+          hr
+      .row
+        // ++++++
+  // About Section
+  section#about.success
+    .container
+      .row
+        .col-lg-12.text-center
+          h2 About
+          hr
+      .row
+        // ++++++
+  // Contact Section
+  section#contact
+    .container
+      .row
+        .col-lg-12.text-center
+          h2 Contact Us
+          hr
+      .row
+        // ++++++
