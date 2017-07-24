@@ -9,7 +9,7 @@ html(lang="en-US")
     meta(http-equiv="Content-Type" content="text/html; charset=UTF-8")
     meta(charset="utf-8")
     meta(http-equiv='X-UA-Compatible' content='IE=edge')
-    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
 
     block metas
 
@@ -42,6 +42,7 @@ html(lang="en-US")
   body#page-top.index
     #skipnav
       a(href='#maincontent') Skip to main content
+
     // Navigation
     nav#mainNav.navbar.navbar-default.navbar-fixed-top.navbar-custom
       .container
@@ -69,6 +70,7 @@ html(lang="en-US")
               a(href='#contact') Contact
         // /.navbar-collapse
       // /.container-fluid
+
     // Header
     header
       #maincontent.container(tabindex='-1')
@@ -83,8 +85,54 @@ html(lang="en-US")
               |                             
               span Communicate with other Election App members!
 
+    // View Container
     block content
 
-    block bodyScripts
-      script(src='/javascripts/mobileSupportScripts.js')
+    // Footer
+    footer.text-center
+      .footer-above
+        .container
+          .row
+            .footer-col.col-md-4
+              h3 Location
+              p
+                | 32323 3rd Avenue
+                br
+                | New York, NY 10016
+            .footer-col.col-md-4
+              h3 Footer Header 3
+              ul.list-inline
+                li
+                  a.btn-social.btn-outline(href='#')
+                    span.sr-only
+                    i
+                li
+                  a.btn-social.btn-outline(href='#')
+                    span.sr-only
+                    i
+                li
+                  a.btn-social.btn-outline(href='#')
+                    span.sr-only
+                    i
+                li
+                  a.btn-social.btn-outline(href='#')
+                    span.sr-only
+                    i
+                li
+                  a.btn-social.btn-outline(href='#')
+                    span.sr-only
+                    i
+            .footer-col.col-md-4
+              h3 About Election App2017
+              p
+                | election App 2017 
+                a(href='') This Great Website
+                | .
+      .footer-below
+        .container
+          .row
+            .col-lg-12
+              copyright &copy; ElectionApp2017 2017
 
+    block bodyScripts
+      script(src='')
