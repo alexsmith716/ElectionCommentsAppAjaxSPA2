@@ -24,6 +24,27 @@ body {
   background-color: #ffffff;
 }
 
+
+.navbar-custom .navbar-brand {
+  font-size: 16px;
+  color: #777777;
+}
+
+.navbar-custom .navbar-toggle {
+  padding: 0px 2px;
+  font-size: 16px;
+  color: #fff;
+}
+
+.navbar-custom .navbar-toggle:active,.navbar-custom .navbar-toggle:focus {
+  outline: 0;
+}
+
+.formLogin {
+    padding: 15px; 
+    min-width:340px;
+}
+/*
 .navbar-custom .navbar-toggle{
     border-color:#ddd
 }
@@ -33,7 +54,7 @@ body {
 .navbar-custom .navbar-toggle .icon-bar{
     background-color:#888
 }
-
+*/
 
 /* Home Page Header */
 .intro {
