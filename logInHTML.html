@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="q1QqgMPs-zB-pGx5H5F25EHXKQzJNYFAYSAc">
+    <title>Log In</title>
+    <link href="data:image/x-icon;" type="image/x-icon" rel="shortcut icon">
+    <intercept-url pattern="/favicon.ico" access="ROLE_ANONYMOUS"></intercept-url>
+    <link href="./public/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/main1.css" rel="stylesheet">
+  </head>
+  <body>
+
+
+
+    <div class="wrapper">
+
+
+
+      <header>
+        <div class="header">
+          <nav class="navbar navbar-default navbar-static-top">
+            <div class="container">
+              <div class="navbar-header">
+                <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="brand" href="/"><img width="225" src="/images/logo-2016-2.png"></a>
+              </div>
+              <div class="navbar-collapse collapse" id="navbar" aria-expanded="false" style="height: 1px;">
+                <ul class="nav navbar-nav navbar-right">
+                  <li> <a class="navbar-link" href="/" data-toggle="collapse" data-target=".navbar-collapse.in">Homepage</a></li>
+                  <li> <a class="navbar-link" href="/membersonly" data-toggle="collapse" data-target=".navbar-collapse.in">Members Only!</a></li>
+                  <li> <a class="signup-link" href="/signup" data-toggle="collapse" data-target=".navbar-collapse.in">Sign Up</a></li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </header>
+
+
+
+      <div class="view">
+
+      
+        <script>
+          var isSafari = (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1)
+          var interactiveFormValidationEnabled = false
+          var appVersion = navigator.appVersion
+          var webkitVersion1 = appVersion.indexOf('AppleWebKit/') + 12
+          var webkitVersion2 = webkitVersion1 + 3
+          var webkitVersion = appVersion.slice(webkitVersion1, webkitVersion2)
+          webkitVersion = parseInt(webkitVersion, 10)
+          if (webkitVersion >= 603 || !isSafari)
+            interactiveFormValidationEnabled = true
+          
+        </script>
+
+
+
+        <div class="modal fade" id="modalAlert" tabindex="-1">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"></h4>
+              </div>
+              <div class="modal-body">
+                <div class="alertSuccess alert alert-success hide" role="alert" style="margin-top: 10px; margin-bottom: 22px;"></div>
+                <div class="alertWarning alert alert-warning hide" role="alert" style="margin-top: 10px; margin-bottom: 22px;"></div>
+                <div class="alertDanger alert alert-danger hide" role="alert" style="margin-top: 10px; margin-bottom: 22px;"></div>
+                <div id="modalScrollbox"></div>
+                <button class="btn btn-default btn-md" data-dismiss="modal" style="margin-top: 6px;">OK</button>
+              </div>
+              <div class="modal-footer"></div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="modal fade" id="forgotPasswordFormModal" name="forgotPasswordFormModal" tabindex="-1">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Forgot your password?</h4>
+              </div>
+              <div class="modal-body">
+                <form action="https://localhost:3000/api/forgotpassword" id="forgotPasswordForm" name="forgotPasswordForm" method="post" enctype="application/x-www-form-urlencoded">
+                  <div class="formLead">
+                    <p>Forgot your password? Enter your email address below and we'll send instructions on how to reset your password.</p>
+                  </div>
+                  <fieldset>
+                    <div class="modalAlertWarning" style="display:none; margin-top: 6px; margin-bottom: 12px;">
+                      <alert class="alert-warning"><strong>An email containing your password recovery link has been sent. If you do not receive an email within 10 minutes, check your spam folder first, then try again.</strong></alert>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label" style="margin-top:10px;">Email:</label>
+                      <input class="form-control input-md" id="forgotPassword" name="forgotPassword" placeholder="Email Address" title="Please enter a valid Email Address" type="email" required>
+                      <div class="text-danger hide loginerror" style="margin-top:8px;">Email is required</div>
+                    </div>
+                    <button class="btn btn-default btn-md modalOkayBtn" data-dismiss="modal" style="display:none;">OK</button>
+                    <div class="modalCancelSubmitBtns">
+                      <button class="btn btn-default btn-md cancelButton" data-dismiss="modal">Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                      <button class="btn btn-primary btn-md" type="submit" id="forgotPasswordSubmitBtn" name="forgotPasswordSubmitBtn">Submit</button>
+                    </div>
+                  </fieldset>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <div class="loading" style="display:none;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+
+        <div class="main"><br><br>
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 col-centered">
+                <div class="panel-body"><!-- h2.form-title Welcome back! -->
+<!-- h3 Please sign in. -->
+                  <p class="small">CSRF token: <br> q1QqgMPs-zB-pGx5H5F25EHXKQzJNYFAYSAc</p>
+                  <script>
+                    console.log('pug > isSafari: ', isSafari)
+                    
+                  </script>
+                  <form action="https://localhost:3000/api/loginuser" id="loginForm" name="loginForm" method="post" enctype="application/x-www-form-urlencoded">
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <div class="form-group">
+                          <label class="control-label sr-only">Email Address</label>
+                          <input class="form-control" id="login-email" name="login-email" placeholder="Email Address" type="text" title="Please enter a valid Email Address" required>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <div class="form-group">
+                          <label class="control-label sr-only">Password</label>
+                          <input class="form-control" id="login-password" name="login-password" placeholder="Password" type="password" autocomplete="off" title="Please enter your Password" required>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <button class="btn btn-primary btn-md" type="submit" id="loginSubmitBtn">Submit</button>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12" style="margin-top:8px;">
+                        <div class="text-danger hide loginerror">Email and Password are required. Please try again.</div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12" style="margin-top:8px;">
+                        <div class="text-danger hide formerror"><strong>Login failed!</strong></div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12" style="margin-top:12px;"><i><a href="#" id="forgotPasswordAnchor" onclick="helper.clearForgotPassword();">Forgot your password?</a></i></div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-backdrop fade in" style="display: none;"><img src="/images/ajax-loader.gif" style="position: fixed; top: 45%; left: 49%;"></div>
+      </div>
+    </div>
+    
+    <!-- jQuery -->
+    <script src="./public/vendor/jquery/jquery-min-3.2.1.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="./public/vendor/bootstrap/js/bootstrap-min-3.3.7.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="./public/vendor/jquery/jquery-easing-1.3.js"></script>
+
+    <!-- Theme JavaScript -->
+    <script src="./public/js/app/electionapp2017.js"></script>
+    <script src="./public/js/views/loginHelpers.js"></script>
+  </body>
+</html>
