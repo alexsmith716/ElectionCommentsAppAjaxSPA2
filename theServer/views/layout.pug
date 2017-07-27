@@ -5,26 +5,21 @@ doctype html
 html(lang="en-US")
 
   head
-  
+
     meta(http-equiv="Content-Type" content="text/html; charset=UTF-8")
     meta(charset="utf-8")
     meta(http-equiv="X-UA-Compatible' content='IE=edge")
     meta(name="viewport", content="width=device-width, initial-scale=1")
     meta(name="description" content="Election App 2017")
-
     block metas
 
     block title
 
     link(href='data:image/x-icon;', type='image/x-icon', rel='shortcut icon') 
     intercept-url(pattern="/favicon.ico" access="ROLE_ANONYMOUS")
-    link(href='', rel='stylesheet')
-    link(href='', rel='stylesheet')
-
+    link(href='/vendor/bootstrap/css/bootstrap.min.css', rel='stylesheet')
+    link(href='/css/electionapp2017.css', rel='stylesheet')
     block links
-
-    script(src='')
-    script(src='')
 
     block headScripts
 
@@ -38,53 +33,58 @@ html(lang="en-US")
       webkitVersion = parseInt(webkitVersion, 10)
       if (webkitVersion >= 603 || !isSafari) {
         interactiveFormValidationEnabled = true
-      }     
-  |     
-  body#page-top.index
-    #skipnav
-      a(href='#maincontent') Skip to main content
+      } 
 
-    // Navigation
-    nav#mainNav.navbar.navbar-default.navbar-fixed-top.navbar-custom
+  body.index
+
+    nav.navbar.navbar-custom.navbar-fixed-top(role='navigation')
       .container
-        // Brand and toggle get grouped for better mobile display
-        .navbar-header.page-scroll
-          button.navbar-toggle(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1')
-            span.sr-only Toggle navigation
-            |  Menu 
-            i.fa.fa-bars
-          |                     
-          a.navbar-brand(href='#page-top') Start Election App 2017
-        // Collect the nav links, forms, and other content for toggling
-        #bs-example-navbar-collapse-1.collapse.navbar-collapse
+        .navbar-header
+          a.navbar-brand(href='#') Election App 2017
+          |                 
+          button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-main-collapse')
+            img(src='./public/images/icon-bar-36.svg', alt='menu icon')
+        |             
+        .navbar-collapse.navbar-main-collapse.collapse
           ul.nav.navbar-nav.navbar-right
-            li.hidden
-              a(href='#page-top')
-            |                         
-            li.page-scroll
-              a(href='#latest-news') Latest News
-            |                         
-            li.page-scroll
-              a(href='#about') About
-            |                         
-            li.page-scroll
-              a(href='#contact') Contact
-        // /.navbar-collapse
-      // /.container-fluid
-
+            li
+              a(href='#') About
+            |                     
+            li
+              a(href='#') Contact
+            |                     
+            li
+              a(href='#') Members Only
+            |                     
+            li.dropdown
+              a.dropdown-toggle(href='#', data-toggle='dropdown')
+                | User Log In
+                span.caret
+              |                         
+              .dropdown-menu.formLogin
+                .row
+                  .container-fluid
+                    form
+                      .form-group
+                        input.form-control(placeholder='Username', type='text')
+                      |                                         
+                      .form-group
+                        input.form-control(placeholder='Password', type='password')
+                      |                                         
+                      button.btn.btn-success(type='submit') Submit
     // Header
-    header
-      #maincontent.container(tabindex='-1')
-        .row
-          .col-lg-12
-            img.img-responsive(src='', alt='')
-            |                         
-            .intro-text
-              h1.name Welcome To Election App 2017
-              |                             
-              hr
-              |                             
-              span Communicate with other Election App members!
+    header.intro
+      .intro-body
+        .container
+          h1.intro-heading Election App 2017
+          |                 
+          h2 The 2016 presidential election is here!
+          |                 
+          p.intro-text
+            b Who do you support and what are your comments? Join the conversation.
+          |                 
+          p
+            a.btn.btn-primary.btn-lg(href='#', role='button') Sign Up Now &raquo;
 
     // View Container
     block content
@@ -97,5 +97,12 @@ html(lang="en-US")
               p
                 Copyright &copy; This Great Election App 2017
 
+    // jQuery
+    script(src='/vendor/jquery/jquery-min-3.2.1.js')
+    // Bootstrap Core JavaScript
+    script(src='/vendor/bootstrap/js/bootstrap-min-3.3.7.js')
+    // Plugin JavaScript
+    script(src='/vendor/jquery/jquery-easing-1.3.js')
+    // Theme JavaScript
+    // script(src='/js/app/electionapp2017.js')            
     block bodyScripts
-      script(src='')
