@@ -73,6 +73,7 @@ module.exports.getIndex = function (req, res, next) {
       res.send(html)
     }
   })
+
 }
 
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */
