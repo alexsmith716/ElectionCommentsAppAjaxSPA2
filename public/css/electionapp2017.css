@@ -16,8 +16,8 @@ body {
 
 /* navbar-custom */
 
+
 .navbar-custom {
-  position: absolute;
   text-transform: uppercase;
   top: 0;
   left: 0;
@@ -31,9 +31,8 @@ body {
 }
 
 .navbar-custom .navbar-toggle {
-  padding: 0px 2px;
+  padding: 0 2px;
   font-size: 16px;
-  color: #fff;
 }
 
 .navbar-custom .navbar-toggle:active,.navbar-custom .navbar-toggle:focus {
@@ -44,17 +43,6 @@ body {
     padding: 15px; 
     min-width:340px;
 }
-/*
-.navbar-custom .navbar-toggle{
-    border-color:#ddd
-}
-.navbar-custom .navbar-toggle:focus,.navbar-custom .navbar-toggle:hover{
-    background-color:#ddd
-}
-.navbar-custom .navbar-toggle .icon-bar{
-    background-color:#888
-}
-*/
 
 /* Home Page Header */
 .intro {
@@ -67,25 +55,24 @@ body {
   height:480px; 
 }
 
-.intro .h1,.intro h1{
-    color:009900;
+.intro .intro-body .intro-heading {
+  color:009900;
 }
 
-.intro p{
+.intro .intro-body .intro-text {
     margin-bottom:15px;
     font-size:21px;
     font-weight:200;
 }
 
-.container .intro,.container-fluid .intro{
-    padding-right:15px;
-    padding-left:15px;
-    border-radius:6px;
-}
-.intro .container{
+.intro .container {
+    padding-top: 60;
     max-width:100%
 }
 @media (min-width:768px){
+    .navbar-custom .navbar-toggle {
+      display: none;
+    }
     .intro{
         padding-top: 50px;
         padding-bottom: 50px;
@@ -101,8 +88,10 @@ body {
 
 @media (max-width:768px){
     .intro{
+        padding-top: 32px;
+        padding-bottom: 32px;
         background-position-x:30%;
-        height:440px;
+        height:420px;
     }
 }
 
