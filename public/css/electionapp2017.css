@@ -69,6 +69,7 @@ body {
     padding-top: 60;
     max-width:100%
 }
+
 @media (min-width:768px){
     .navbar-custom .navbar-toggle {
       display: none;
