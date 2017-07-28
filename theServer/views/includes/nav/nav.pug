@@ -1,0 +1,37 @@
+//- includes/nav/nav.pug
+
+nav.navbar.navbar-custom.navbar-fixed-top(role='navigation')
+  .container
+    .navbar-header
+      a.navbar-brand(href='#') Election App 2017
+      |                 
+      button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-main-collapse')
+        img(src='/images/icon-bar-36.svg', alt='menu icon')
+    |             
+    .navbar-collapse.navbar-main-collapse.collapse
+      ul.nav.navbar-nav.navbar-right
+        li
+          a(href='#') About
+        |                     
+        li
+          a(href='#') Contact
+        |                     
+        li
+          a(href='#') Members Only
+        |                     
+        li.dropdown
+          a.dropdown-toggle(href='#', data-toggle='dropdown')
+            | User Log In
+            span.caret
+          |                         
+          .dropdown-menu.formLogin
+            .row
+              .container-fluid
+                form
+                  .form-group
+                    input.form-control(placeholder='Username', type='text')
+                  |                                         
+                  .form-group
+                    input.form-control(placeholder='Password', type='password')
+                  |                                         
+                  button.btn.btn-success(type='submit') Submit  

@@ -1,44 +1,31 @@
-// ElectionApp2017 Theme JavaScript
 
-(function($) {
-    "use strict"; // Start of use strict
+$(function() {
 
-    // jQuery for page scrolling feature - requires jQuery Easing plugin
-    $('.page-scroll a').bind('click', function(event) {
-        var $anchor = $(this);
-        $('html, body').stop().animate({
-            scrollTop: ($($anchor.attr('href')).offset().top - 50)
-        }, 1250, 'easeInOutExpo');
-        event.preventDefault();
-    });
+  // <a class="dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="true">
 
-    // Highlight the top nav as scrolling occurs
-    $('body').scrollspy({
-        target: '.navbar-fixed-top',
-        offset: 51
-    });
+  $('nav .navbar-header .navbar-toggle').on('click', function() {
+    console.log('##### 22222 #####')
 
-    // Closes the Responsive Menu on Menu Item Click
-    $('.navbar-collapse ul li a').click(function(){ 
-            $('.navbar-toggle:visible').click();
-    });
+    if ($('nav .navbar-collapse .dropdown .dropdown-toggle').attr('aria-expanded')) {
 
-    // Offset for Main Navigation
-    $('#mainNav').affix({
-        offset: {
-            top: 100
-        }
-    })
+      // console.log('### navbar-toggle CLICK aria-expanded TRUE ###')
 
-    // Floating label headings for the contact form
-    $(function() {
-        $("body").on("input propertychange", ".floating-label-form-group", function(e) {
-            $(this).toggleClass("floating-label-form-group-with-value", !!$(e.target).val());
-        }).on("focus", ".floating-label-form-group", function() {
-            $(this).addClass("floating-label-form-group-with-focus");
-        }).on("blur", ".floating-label-form-group", function() {
-            $(this).removeClass("floating-label-form-group-with-focus");
-        });
-    });
+      $('nav .navbar-collapse .dropdown .dropdown-toggle').dropdown('toggle')
+      $('nav .nav .dropdown').removeClass('open')
+      $('nav .navbar-collapse .dropdown .dropdown-toggle').attr('aria-expanded', 'false')
 
-})(jQuery); // End of use strict
+    } else {
+      // console.log('### navbar-toggle CLICK aria-expanded FALSE ###')
+    }
+  })
+
+  $('nav .navbar-collapse .dropdown .dropdown-toggle').on('click', function() {
+
+    if ($(this).attr('aria-expanded')) {
+      // console.log('### dropdown-toggle aria-expanded TRUE ###')
+    } else {
+      // console.log('### dropdown-toggle aria-expanded FALSE ###')
+    }
+  })
+
+})
