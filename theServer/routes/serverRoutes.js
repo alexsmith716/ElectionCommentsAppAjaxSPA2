@@ -12,8 +12,8 @@ var csrfProtection = csrf({ cookie: true })
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 router.use(function (req, res, next) {
-  //console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>> serverRoutes > router.use > req.method: ', req.method)
-  //console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>> serverRoutes > router.use > req.url: ', req.url)
+  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>> serverRoutes > router.use > req.method: ', req.method)
+  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>> serverRoutes > router.use > req.url: ', req.url)
   console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>> serverRoutes > router.use > req.headers: ', req.headers)
   next()
 })
