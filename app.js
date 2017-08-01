@@ -120,11 +120,11 @@ app.use(function (req, res, next) {
   // console.log('REQ.fresh ++: ', req.fresh)
   // console.log('REQ.stale ++: ', req.stale)
   // console.log('REQ.protocol ++: ', req.protocol)
-  //console.log('REQ.method ++: ', req.method)
+  // console.log('REQ.method ++: ', req.method)
   // console.log('REQ.route ++: ', req.route)
   // console.log('REQ.url ++: ', req.url)
-  //console.log('REQ.originalUrl ++: ', req.originalUrl)
-  ///console.log('REQ.path ++: ', req.path)
+  // console.log('REQ.originalUrl ++: ', req.originalUrl)
+  // console.log('REQ.path ++: ', req.path)
   // console.log('REQ.headers ++: ', req.headers)
   // console.log('REQ.headers.referer ++: ', req.headers['referer'])
   // console.log('REQ.headers.user-agent ++: ', req.headers['user-agent'])
@@ -164,8 +164,6 @@ app.use(function (req, res, next) {
     req.session.currentRoute ? req.session.referingRoute = req.session.currentRoute : null
     req.session.currentRoute = req.originalUrl
   }
-
-  console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ GOING THROUGH APP NOW ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^')
 
   if(res.locals.currentUser){
     req.session.paginateFrom = res.locals.sortDocsFrom;

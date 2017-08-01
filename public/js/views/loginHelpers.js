@@ -155,6 +155,14 @@ var helper = {
                 console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginForm > SUCCESS > SUCCESS > dataT: ', data.token)
                 console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginForm > SUCCESS > SUCCESS > dataR: ', data.redirect)
                 //helper.directSuccess(data.redirect)
+                // $('#main').html($(data).find('#main *'))
+                //var $title = $('<h1>').text(data.talks[0].talk_title);
+                //var $description = $('<p>').text(data.talks[0].talk_description);
+                //$('#info')
+                //.append($title)
+                //.append($description)
+                // $('#response pre').html( JSON.stringify( data ) )
+                
                  $('.content').html(response)
                 
               } else {
