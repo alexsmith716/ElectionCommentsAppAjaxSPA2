@@ -1,15 +1,19 @@
+
 extends layout
 
 block metas
 
 block title
-  title ThisGreatApp!
+  title Election App 2017!
 
 block headScripts
 
 block bodyScripts
 
 block content
+
+  // Header
+  include includes/header/header.pug
 
   script.
     console.log('pug > isSafari???: ', isSafari)
@@ -62,7 +66,7 @@ block content
               | Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque, optio corporis quae nulla aspernatur in alias at numquam rerum ea excepturi expedita tenetur assumenda voluptatibus eveniet incidunt dicta nostrum quod?
             |                         
             a.btn.btn-default(href='#') Learn More
-    // /.row
+
     // Grided Section
     .row
       .col-lg-12
@@ -91,7 +95,7 @@ block content
       .col-md-4.col-sm-6
         a(href='')
           img.img-responsive(src='', alt='')
-    // /.row
+
     // Features Section
     .row
       .col-lg-12
@@ -115,7 +119,7 @@ block content
       |             
       .col-md-6
         img.img-responsive(src='', alt='')
-    // /.row
+
     hr
     // Call to Action Section
     .well
@@ -127,4 +131,6 @@ block content
         .col-md-4
           a.btn.btn-lg.btn-default.btn-block(href='#') Call to Action
     hr
-  // /.container
+
+    // Footer
+    include includes/footer/footer.pug

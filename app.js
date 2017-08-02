@@ -185,20 +185,19 @@ if (app.get('env') === 'development') {
 
 app.use(function (req, res, next) {
 
-  /*
   var timer = setTimeout(function () {
     console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Ending Timed-Out Request <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
     var err = new Error('Gateway Timeout, req.originalUrl: '+req.originalUrl)
     err.status = 504
     next(err)
   }, 30000)
-  */
+
   onFinished(req, function () {
     console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> APP onFinished REQ <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
   })
 
   onFinished(res, function () {
-    // clearTimeout(timer)
+    clearTimeout(timer)
     console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> APP onFinished RES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
   })
 
@@ -210,6 +209,8 @@ app.use(function (req, res, next) {
 
 app.use('/', serverRoutes)
 app.use('/api', apiRoutes)
+
+// app.set('view cache', true)
 
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */
@@ -232,7 +233,7 @@ if (app.get('env') === 'development') {
 
     res.status(err.status || 500)
 
-    //console.log('############################# DEV ERR: ', err)
+    console.log('############################# DEV ERR: ', err)
     //console.log('############################# DEV ERR.code: ', err.code)
     //console.log('############################# DEV ERR.status: ', err.status)
     //console.log('############################# DEV ERR.name: ', err.name)
@@ -260,15 +261,15 @@ if (app.get('env') === 'development') {
 
     } else {
 
-      if (referer) {
-        console.log('############################# APP UNCAUGHT ERR HANDLER DEVELOPMENT > NO XHR - referer #############################: ', referer)
-        res.redirect(referer)
+      //if (referer) {
+        //console.log('############################# APP UNCAUGHT ERR HANDLER DEVELOPMENT > NO XHR - referer #############################: ', referer)
+        //res.redirect(referer)
 
-      } else {
+      //} else {
         console.log('############################# APP UNCAUGHT ERR HANDLER DEVELOPMENT > NO XHR - other #############################')
         res.redirect('/notifyerror')
 
-      }
+      //}
     }
   })
 }

@@ -1,7 +1,7 @@
 
 module.exports = function (err) {
 
-  var errTitle = 'An Application Error Has Occurred'
+  var errTitle = 'An error occurred processing your request'
 
   var errAlert = '<p>A error recently occurred with the application. Please try your request again.</p><p>If this problem continues, please contact our Help Desk at 555-555-1234.</p><p>You may also email Customer Service at customer.care@ThisGreatApp.com.</p><p>Visit our&nbsp;<a class="highlight" href="/customerservice">Customer Service</a>&nbsp;webpage for a full listing of helpful information.</p><p>We appreciate your patience!</p>'
 

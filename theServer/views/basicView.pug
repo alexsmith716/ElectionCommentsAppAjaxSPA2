@@ -1,5 +1,16 @@
+extends layout
 
-// View Container Content
+block metas
+
+block title
+  title= title
+
+block links
+
+block headScripts
+
+block bodyScripts
+
 block content
 
   .container
@@ -58,3 +69,8 @@ block content
             button(class="btn btn-default btn-md", data-dismiss="modal", style="margin-top: 6px;") OK
   
           .modal-footer
+
+    hr
+
+    // Footer
+    include includes/footer/footer.pug
