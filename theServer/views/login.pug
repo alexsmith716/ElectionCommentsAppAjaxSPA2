@@ -1,8 +1,23 @@
 
-// View Container Content
+extends layout
+
+block metas
+  meta(name="csrf-token", content= `${csrfToken}`)
+
+block title
+  title Log In
+
+block links
+
+block headScripts
+
+block bodyScripts
+  script(src='/javascripts/loginHelpers.js')
+
 block content
 
   .container
+
     // Page Heading/Breadcrumbs
     .row
       .col-lg-12
@@ -15,7 +30,8 @@ block content
             a(href='#') Home
           |                     
           li.active Log In
-    // /.row
+
+    // Log In form
     .row
       .col-lg-12
         h3 Please sign in
@@ -39,6 +55,8 @@ block content
             #success
             |                     
             button.btn.btn-primary(type='submit', id="loginSubmitBtn") Submit
-      // /.row
-      hr
-    // /.container
+
+    hr
+
+    // Footer
+    include includes/footer/footer.pug

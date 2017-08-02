@@ -1,0 +1,66 @@
+
+extends layout
+
+block metas
+
+block title
+  title An Application Error Has Occurred
+
+block links
+
+block headScripts
+
+block bodyScripts
+  - if ( err )
+    script.
+      $('.err-title').html( '!{err.title}' )
+      $('.alertDanger').html( '!{err.alert}' )
+      $('#errScrollbox').html( '!{err.message}' )
+      $('.alertDanger').addClass('show').removeClass('hide')
+
+block content
+
+  .container
+
+    // Page Heading/Breadcrumbs
+    .row
+      .col-lg-12
+        h1.page-header
+          | An Application Error Has Occurred
+          // <small></small>
+        |                 
+        ol.breadcrumb
+          li
+            a(href='#') Home
+          |                     
+          li.active Application Error
+
+      .row
+        .col-lg-12
+          .jumbotron
+            h1
+              span.error-404 404
+            |                     
+            p
+              | An error occurred processing your request. Here are some helpful links to get you back on track:
+            |                     
+            ul
+              li
+                a(href='/') Home
+              |                         
+              li
+                a(href='/about') About
+              |                         
+              li
+                a(href='/contact') Contact
+              |                         
+              li
+                a(href='/signup') Sign Up
+              |                         
+              li
+                a(href='/login') Log In
+                         
+    hr
+
+    // Footer
+    include includes/footer/footer.pug

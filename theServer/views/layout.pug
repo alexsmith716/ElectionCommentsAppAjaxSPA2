@@ -19,6 +19,7 @@ html(lang="en-US")
     intercept-url(pattern="/favicon.ico" access="ROLE_ANONYMOUS")
     link(href='/vendor/bootstrap/css/bootstrap.min.css', rel='stylesheet')
     link(href='/css/electionapp2017.css', rel='stylesheet')
+    link(href='/vendor/font-awesome/css/font-awesome.min.css', rel='stylesheet', type="text/css")
     block links
 
     block headScripts
@@ -42,16 +43,8 @@ html(lang="en-US")
     include includes/nav/nav.pug
 
 
-    // Header
-    include includes/header/header.pug
-
-
     // View Container
     block content
-
-
-    // Footer
-    include includes/footer/footer.pug
 
 
     // jQuery

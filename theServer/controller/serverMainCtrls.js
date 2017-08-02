@@ -71,6 +71,7 @@ module.exports.getIndex = function (req, res, next) {
 
     } else {
       res.send(html)
+      // res.sendFile(html)
     }
   })
 
@@ -326,13 +327,21 @@ module.exports.getMembersOnly = function (req, res, next) {
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */
 
 module.exports.getNotifyError = function (req, res, next) {
+
+  console.log('>>>>>>>>>>>>>>>>>>>>> server > getNotifyError 1<<<<<<<<<<<<<<<<<<<<')
+
   res.render('notifyError', { err: req.session.renderableErr }, function (err, html) {
+
     if (err) {
+      console.log('>>>>>>>>>>>>>>>>>>>>> server > getNotifyError 2<<<<<<<<<<<<<<<<<<<<: ', html)
       return next(err)
     }
+
+    console.log('>>>>>>>>>>>>>>>>>>>>> server > getNotifyError 3<<<<<<<<<<<<<<<<<<<<: ', html)
     req.session.renderableErr ? req.session.renderableErr = null : null
     res.send(html)
   })
+
 }
 
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */
@@ -379,32 +388,32 @@ module.exports.getDummyPage = function (req, res, next) {
 
 
 module.exports.getAbout = function (req, res, next) {
+
+  console.log('>>>>>>>>>>>>>>>>>>>>> server > getAbout <<<<<<<<<<<<<<<<<<<<')
+
   var locals = { 
     title: 'About',
     header: 'About!',
     content: 'ThisGreatApp! is all about people sharing their favorite novelties across America.\n\nAut tenetur sit quam aliquid quia dolorum voluptate. Numquam itaque et hic reiciendis. Et eligendi quidem officia maiores. Molestiae ex sed vel architecto nostrum. Debitis culpa omnis perspiciatis vel eum. Vitae doloremque dolor enim aut minus.\n\nPossimus quaerat enim voluptatibus provident. Unde commodi ipsum voluptas ut velit. Explicabo voluptas at alias voluptas commodi. Illum et nihil ut nihil et. Voluptas iusto sed facere maiores.'
     }
-    console.log('>>>>>>>>>>>>>>>>>>>>>>>>> SERVER > getAbout <<<<<<<<<<<<<<<<<<')
 
-    res.sendFile(path.join(__dirname, '../../public/views', 'layoutAboutViewMini.html'))
-
-    /*
-    fs.readFile('../../public/views/layoutAboutViewMini.html', function (err, data) {
-      if(err) {
-        return next(err)
-      }
-      res.send(data.toString())
-    })
-    */
-    //res.sendFile('layoutLoginView.html')
   /*
-  res.render('basicView', locals, function (err, html) {
+  res.sendFile(path.join(__dirname, '../../public/views', 'layoutAboutViewMini.html'))
+
+  fs.readFile('../../public/views/layoutAboutViewMini.html', function (err, data) {
+    if(err) {
+      return next(err)
+    }
+    res.send(data.toString())
+  })
+  */
+  res.render('about', locals, function (err, html) {
     if (err) {
       return next(err)
     }
     res.send(html)
+    //res.sendFile(path.join(__dirname, '../../public', html))
   })
-  */
 
 }
 
@@ -417,7 +426,7 @@ module.exports.getContact = function (req, res, next) {
     header: 'Contact!',
     content: 'ThisGreatApp! can be contacted by calling 1-800-555-1234.\n\nDolorem necessitatibus aliquam libero magni. Quod quaerat expedita at esse. Omnis tempora optio laborum laudantium culpa pariatur eveniet consequatur.'
     }
-  res.render('basicView', locals, function (err, html) {
+  res.render('contact', locals, function (err, html) {
     if (err) {
       return next(err)
     }
