@@ -375,22 +375,41 @@ module.exports.getDummyPage = function (req, res, next) {
   })
 }
 
+
+
+
 module.exports.getAbout = function (req, res, next) {
   var locals = { 
     title: 'About',
     header: 'About!',
     content: 'ThisGreatApp! is all about people sharing their favorite novelties across America.\n\nAut tenetur sit quam aliquid quia dolorum voluptate. Numquam itaque et hic reiciendis. Et eligendi quidem officia maiores. Molestiae ex sed vel architecto nostrum. Debitis culpa omnis perspiciatis vel eum. Vitae doloremque dolor enim aut minus.\n\nPossimus quaerat enim voluptatibus provident. Unde commodi ipsum voluptas ut velit. Explicabo voluptas at alias voluptas commodi. Illum et nihil ut nihil et. Voluptas iusto sed facere maiores.'
     }
-    console.log('>>>>>>>>>>>>>>>>>>>>>>>>> SERVER > getAbout <<<<<<<<<<<<<<<<<<<<<<<<<<')
+    console.log('>>>>>>>>>>>>>>>>>>>>>>>>> SERVER > getAbout <<<<<<<<<<<<<<<<<<')
 
+    res.sendFile(path.join(__dirname, '../../public/views', 'layoutAboutViewMini.html'))
+
+    /*
+    fs.readFile('../../public/views/layoutAboutViewMini.html', function (err, data) {
+      if(err) {
+        return next(err)
+      }
+      res.send(data.toString())
+    })
+    */
+    //res.sendFile('layoutLoginView.html')
+  /*
   res.render('basicView', locals, function (err, html) {
     if (err) {
       return next(err)
     }
     res.send(html)
   })
+  */
 
 }
+
+
+
 
 module.exports.getContact = function (req, res, next) {
   var locals = { 
