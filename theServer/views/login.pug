@@ -12,7 +12,16 @@ block links
 block headScripts
 
 block bodyScripts
-  script(src='/javascripts/loginHelpers.js')
+  script(src='/js/views/loginHelpers.js')
+  - if ( err )
+    script.
+      $('#modalAlert .modal-title').html( '!{err.title}' )
+      $('#modalAlert .alertDanger').html( '!{err.alert}' )
+      $('#modalAlert #errScrollbox').html( '!{err.message}' )
+      $('#modalAlert .alertDanger').addClass('show').removeClass('hide')
+      $('#modalAlert').modal({keyboard: false,backdrop: 'static'})
+  script.
+    console.log('isSafari: ', isSafari)
 
 block content
 
@@ -41,20 +50,93 @@ block content
             .controls
               label Email Address:
               |                             
-              input#login-email.form-control(name='login-email', placeholder='Email Address', title='Please enter a valid Email Address', required='', type='text')
+              input.form-control(id="login-email", name="login-email", placeholder="Email Address", type="text", title="Please enter a valid Email Address", required)
           |                     
           .control-group.form-group
             .controls
               label Password:
               |                             
-              input#login-password.form-control(name='login-password', placeholder='Password', autocomplete='off', title='Please enter your Password', required='', type='password')
+              input.form-control(id="login-password", name="login-password", placeholder="Password", type="password", autocomplete="off", title="Please enter your Password", required)
               |                             
               p.help-block
           |                     
           .control-group.form-group
             #success
             |                     
-            button.btn.btn-primary(type='submit', id="loginSubmitBtn") Submit
+            button(type="submit", class="btn btn-primary btn-md", id="loginSubmitBtn") Submit
+
+    .row
+      .col-xs-12(style="margin-top:8px;")
+        .text-danger.hide.loginerror Email and Password are required. Please try again.
+
+    .row
+      .col-xs-12(style="margin-top:8px;")
+        .text-danger.hide.formerror
+          strong Login failed!
+
+    // Forgot Password
+    .row
+      .col-lg-12
+        i
+          a(href="#" id="forgotPasswordAnchor", onclick="helper.clearForgotPassword();") Forgot your password?
+
+    .modal.fade(id='modalAlert', tabindex='-1')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type="button" data-dismiss="modal") &times;
+            h4.modal-title
+
+          .modal-body
+
+            .alertSuccess.alert.alert-success.hide(role="alert", style="margin-top: 10px; margin-bottom: 22px;")
+            .alertWarning.alert.alert-warning.hide(role="alert", style="margin-top: 10px; margin-bottom: 22px;")
+            .alertDanger.alert.alert-danger.hide(role="alert", style="margin-top: 10px; margin-bottom: 22px;")
+
+            div(id="errScrollbox")
+
+            button(class="btn btn-default btn-md", data-dismiss="modal", style="margin-top: 6px;") OK
+
+          .modal-footer
+
+    .modal.fade(id="forgotPasswordFormModal", name="forgotPasswordFormModal", tabindex='-1')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type="button" data-dismiss="modal") &times;
+            h4.modal-title Forgot your password?
+
+          .modal-body
+
+            form(action="https://localhost:3000/api/forgotpassword", id="forgotPasswordForm", name="forgotPasswordForm", method="post", enctype="application/x-www-form-urlencoded")
+
+              .formLead
+                p If you have forgotten your password, please enter your email address below and we will send instructions on how to reset your password.
+
+              fieldset
+
+                .alertWarning.alert.alert-warning.hide(role="alert", style="margin-top: 6px; margin-bottom: 12px;")
+
+                .form-group
+
+                  label.control-label(style="margin-top:10px;") Email:
+
+                  input.form-control.input-md(id="forgotPassword", name="forgotPassword", placeholder="Email Address", title="Please enter a valid Email Address", type="email", required)
+
+                  .text-danger.hide.loginerror(style="margin-top:8px;") Email is required
+
+                button(class="btn btn-default btn-md modalOkayBtn" data-dismiss="modal" style="display:none;") OK
+                |
+                div(class="modalCancelSubmitBtns")
+                  button(class="btn btn-default btn-md cancelButton" data-dismiss="modal") Cancel
+                  | &nbsp;&nbsp;&nbsp;&nbsp;
+                  button(type="submit", id="forgotPasswordSubmitBtn", name="forgotPasswordSubmitBtn", class="btn btn-primary btn-md") Submit
+
+          .modal-footer
+            .loading(style="display:none;")
+
+    .modal-backdrop.fade.in(style="display: none;")
+       img(src="/images/ajax-loader.gif" style="position: fixed; top: 45%; left: 49%;")
 
     hr
 
