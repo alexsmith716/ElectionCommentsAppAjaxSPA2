@@ -5,6 +5,7 @@ process.env.NODE_ENV = 'development'
 // var cluster = require('cluster')
 var express = require('express')
 var helmet = require('helmet')
+var http = require('http')
 var https = require('https')
 var path = require('path')
 // var favicon = require('serve-favicon')
@@ -120,8 +121,8 @@ app.use(function (req, res, next) {
   // console.log('REQ.fresh ++: ', req.fresh)
   // console.log('REQ.stale ++: ', req.stale)
   // console.log('REQ.protocol ++: ', req.protocol)
-  // console.log('REQ.method ++: ', req.method)
-  // console.log('REQ.route ++: ', req.route)
+  console.log('REQ.method ++: ', req.method)
+  console.log('REQ.route ++: ', req.route)
   // console.log('REQ.url ++: ', req.url)
   // console.log('REQ.originalUrl ++: ', req.originalUrl)
   // console.log('REQ.path ++: ', req.path)
@@ -185,21 +186,32 @@ if (app.get('env') === 'development') {
 
 app.use(function (req, res, next) {
 
+  /*
   var timer = setTimeout(function () {
     console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Ending Timed-Out Request <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
     var err = new Error('Gateway Timeout, req.originalUrl: '+req.originalUrl)
     err.status = 504
     next(err)
   }, 30000)
+  */
 
   onFinished(req, function () {
     console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> APP onFinished REQ <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
   })
 
   onFinished(res, function () {
-    clearTimeout(timer)
+    //clearTimeout(timer)
     console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> APP onFinished RES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
   })
+
+  next()
+})
+
+app.use(function (req, res, next) {
+
+  res.header('Access-Control-Allow-Origin', '*')
+  //res.header('Access-Control-Allow-Methods',)
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
 
   next()
 })
@@ -234,9 +246,9 @@ if (app.get('env') === 'development') {
     res.status(err.status || 500)
 
     console.log('############################# DEV ERR: ', err)
-    //console.log('############################# DEV ERR.code: ', err.code)
-    //console.log('############################# DEV ERR.status: ', err.status)
-    //console.log('############################# DEV ERR.name: ', err.name)
+    console.log('############################# DEV ERR.code: ', err.code)
+    console.log('############################# DEV ERR.status: ', err.status)
+    console.log('############################# DEV ERR.name: ', err.name)
     //console.log('############################# DEV ERR.message: ', err.message)
     //console.log('############################# DEV ERR.referer: ', err.referer)
     //console.log('############################# ++++++++++++++++++++++++++++++++++++++++')
@@ -252,7 +264,7 @@ if (app.get('env') === 'development') {
 
     req.session.renderableErr = renderableCustomErrorObject( err )
 
-    console.log('############################# APP UNCAUGHT ERR HANDLER DEVELOPMENT > req.session.renderableErr ############################: ', req.session.renderableErr)
+    console.log('############################# APP UNCAUGHT ERR HANDLER DEVELOPMENT > req.session.renderableErr ############################: ')
 
     if (req.xhr) {
 
@@ -283,6 +295,9 @@ module.exports = app
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */
 
 app.set('port', process.env.PORT || 3000)
-var server = https.createServer(options, app).listen(app.get('port'), function () {
+//var server = https.createServer(options, app).listen(app.get('port'), '127.0.0.1', function () {
+//var server = https.createServer(options, app).listen(3000, 'localhost', function () {
+var server = http.createServer(app).listen(3000, 'localhost', function () {
   console.log('Express server listening on port ' + server.address().port)
+  console.log('Express server listening on port ' + server.address().address)
 })

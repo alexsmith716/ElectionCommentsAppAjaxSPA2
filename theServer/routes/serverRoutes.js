@@ -1,20 +1,21 @@
 
 var cookieParser = require('cookie-parser')
-var csrf = require('csurf')
 var bodyParser = require('body-parser')
 var express = require('express')
 var router = express.Router()
 var serverControllers = require('../controller/serverMainCtrls')
 var nocache = require('nocache')
 var auth = require('../../shared/auth')
+var csrf = require('csurf')
 var csrfProtection = csrf({ cookie: true })
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 router.use(function (req, res, next) {
-  //console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>> serverRoutes > router.use > req.method: ', req.method)
-  //console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>> serverRoutes > router.use > req.url: ', req.url)
-  //console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>> serverRoutes > router.use > req.headers: ', req.headers)
+  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>> serverRoutes > router.use > req.method: ', req.method)
+  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>> serverRoutes > router.use > req.url: ', req.url)
+  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>> serverRoutes > router.use > req.headers: ', req.headers)
+  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>> serverRoutes > router.use > req.body: ', req.body)
   next()
 })
 
@@ -41,7 +42,11 @@ router.get('/notifyerror', serverControllers.getNotifyError)
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-router.get('/userhome', csrfProtection, auth.jwtAuthAPI, serverControllers.getUserHome)
+// router.post('/loginuser', csrfProtection, serverControllers.doLoginUser)
+router.post('/loginuser', csrfProtection, auth.jwtAuthAPI, serverControllers.doLoginUser)
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 router.get('/membersonly', auth.ensureAuthenticated, serverControllers.getMembersOnly)
 router.get('/userprofile', csrfProtection, auth.ensureAuthenticated, serverControllers.getUserProfile)
 router.get('/logout', auth.ensureAuthenticated, serverControllers.getLogout)

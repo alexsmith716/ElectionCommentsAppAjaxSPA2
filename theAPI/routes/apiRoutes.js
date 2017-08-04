@@ -11,12 +11,26 @@ var csrfProtection = csrf({ cookie: true })
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 router.use(function (req, res, next) {
+  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>> apiRoutes > router.use > req.method: ', req.method)
+  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>> apiRoutes > router.use > req.url: ', req.url)
+  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>> apiRoutes > router.use > req.headers: ', req.headers)
+  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>> apiRoutes > router.use > req.body: ', req.body)
   next()
 })
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-router.post('/loginuser', csrfProtection, apiControllers.ajaxLoginUser)
+router.get('/loginview/init', apiControllers.ajaxLoginViewInit)
+router.get('/indexview/init', apiControllers.ajaxIndexViewInit)
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+router.post('/doverifylogincredentials', csrfProtection, apiControllers.doVerifyLoginCredentials)
+
+router.post('/loginuser', auth.jwtAuthAPI, apiControllers.doLoginUser)
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 router.post('/signupuser', csrfProtection, apiControllers.ajaxSignUpUser)
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -25,8 +39,6 @@ router.post('/forgotpassword', csrfProtection, apiControllers.ajaxForgotPassword
 router.put('/userprofile', csrfProtection, auth.ensureAuthenticated, apiControllers.ajaxEvaluateUserProfile)
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-router.get('/userhome', csrfProtection, auth.jwtAuthAPI, apiControllers.ajaxUserHome)
 
 router.post('/usersignup', csrfProtection, apiControllers.expectedResponseSignUp, apiControllers.ajaxEvaluateUserEmail)
 router.post('/userprofile', csrfProtection, apiControllers.expectedResponseUserProfile, apiControllers.ajaxEvaluateUserEmail)

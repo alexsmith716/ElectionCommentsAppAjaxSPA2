@@ -18,4 +18,9 @@ $(function() {
 
     }
   })
+
+  console.log('userAgent > isSafari: ', isSafari)
+  console.log('navigator.appVersion: ', webkitVersion)
+  console.log('interactiveFormValidationEnabled: ', interactiveFormValidationEnabled)
+
 })

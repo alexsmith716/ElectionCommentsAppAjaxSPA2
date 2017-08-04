@@ -36,16 +36,14 @@ html(lang="en-US")
         interactiveFormValidationEnabled = true
       } 
 
-  body.index
-
+  body
 
     // nav
     include includes/nav/nav.pug
 
-
-    // view container
-    block content
-
+    // view content/container
+    div(id="content")
+      block content
 
     // body scripts
     include includes/body-scripts/scripts.pug

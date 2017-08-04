@@ -17,7 +17,8 @@ var pug = require('pug')
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */
 
 var apiOptions = {
-  server : 'https://localhost:3000'
+  // server : 'https://localhost:3000'
+  server : 'http://localhost:3000'
 }
 
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */
@@ -56,14 +57,12 @@ module.exports.getLogout = function (req, res, next) {
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */
 
 module.exports.getIndex = function (req, res, next) {
-
   var locals = { 
     pageHeader: {
       title: 'Election App 2016!'
     },
     subtitle: 'Log In or Sign Up to join the discussion'
   }
-
   res.render('indexView', locals, function (err, html) {
 
     if (err) {
@@ -71,10 +70,8 @@ module.exports.getIndex = function (req, res, next) {
 
     } else {
       res.send(html)
-      // res.sendFile(html)
     }
   })
-
 }
 
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */
@@ -218,8 +215,11 @@ module.exports.getLogin = function (req, res, next) {
 
   // var jsonString
   // req.session.renderableErr ? jsonString = req.session.renderableErr : null
+  var csurf =  req.csrfToken()
 
-  res.render('login', { csrfToken: req.csrfToken(), err: req.session.renderableErr }, function (err, html) {
+  console.log('>>>>>>>>>>>>>>>> XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX <<<<<<<<<<<< csurf: ', csurf)
+
+  res.render('login', { csrfToken: csurf, err: req.session.renderableErr }, function (err, html) {
 
     if (err) {
       return next(err)
@@ -227,7 +227,6 @@ module.exports.getLogin = function (req, res, next) {
 
     req.session.renderableErr ? req.session.renderableErr = null : null
     res.send(html)
-
   })
 }
 
@@ -246,22 +245,35 @@ module.exports.getSignup = function (req, res, next) {
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */
 
-module.exports.getUserHome = function (req, res, next) {
-
-  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> getUserHome > req.headers: ', req.headers)
+module.exports.doLoginUser = function (req, res) {
+  console.log('>>>>>>>>>>>>>>>> server > doLoginUser <<<<<<<<<<<<<<<<<')
 
   var renderableErr
-  req.session.renderableErr ? renderableErr = req.session.renderableErr : null
+  var requestOptions
+  var path = '/api/loginUser'
+  //var path = '/api/loginUser/' + res.locals.currentUser.id
 
-  res.render('userHome', { err: renderableErr }, function (err, html) {
+  requestOptions = {
+    rejectUnauthorized: false,
+    url : apiOptions.server + path,
+    method : 'GET',
+    json : {}
+  }
 
-    if (err) {
-      return next(err)
-    }
+  request(requestOptions, function (err, response) {
 
-    req.session.renderableErr ? req.session.renderableErr = null : null
-    res.send(html)
+    req.session.renderableErr ? renderableErr = req.session.renderableErr : null
 
+    res.render('userHome', { err: renderableErr }, function (err, html) {
+
+      if (err) {
+        return next(err)
+      }
+
+      req.session.renderableErr ? req.session.renderableErr = null : null
+      res.send(html)
+
+    })
   })
 }
 
@@ -287,7 +299,7 @@ module.exports.getUserProfile = function (req, res, next) {
 
       next(err)
 
-    } else if (code.statusCode === 200) {
+    } else {
 
       res.locals.currentUser.stateFull = stateNamer(body.state)
 
@@ -296,10 +308,6 @@ module.exports.getUserProfile = function (req, res, next) {
         responseBody: body,
         validateEmailService: 'userprofile'
       })
-
-    } else {
-
-      next(body)
 
     }
   })
@@ -333,11 +341,11 @@ module.exports.getNotifyError = function (req, res, next) {
   res.render('notifyError', { err: req.session.renderableErr }, function (err, html) {
 
     if (err) {
-      console.log('>>>>>>>>>>>>>>>>>>>>> server > getNotifyError 2<<<<<<<<<<<<<<<<<<<<: ', html)
+      console.log('>>>>>>>>>>>>>>>>>>>>> server > getNotifyError 2<<<<<<<<<<<<<<<<<<<<: ')
       return next(err)
     }
 
-    console.log('>>>>>>>>>>>>>>>>>>>>> server > getNotifyError 3<<<<<<<<<<<<<<<<<<<<: ', html)
+    console.log('>>>>>>>>>>>>>>>>>>>>> server > getNotifyError 3<<<<<<<<<<<<<<<<<<<<: ')
     req.session.renderableErr ? req.session.renderableErr = null : null
     res.send(html)
   })
