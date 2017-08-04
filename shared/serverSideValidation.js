@@ -3,6 +3,8 @@ var evaluateUserEmail = require('./evaluateUserEmail')
 
 module.exports = function (req, res, cb) {
 
+  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> serverSideValidation 1 <<<<<<<<<<<<<<<<<<<: ', req.body)
+
   var reqBody = req.body
   var match = {}
   var nomatch = {}
@@ -309,6 +311,8 @@ module.exports = function (req, res, cb) {
 
             if (err) {
 
+                console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> serverSideValidation 2 <<<<<<<<<<<<<<<<<<<')
+
               cb(err)
 
             } else {
@@ -340,6 +344,7 @@ module.exports = function (req, res, cb) {
               }
 
               cb(null, validatedUserInput)
+              console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> serverSideValidation 3 <<<<<<<<<<<<<<<<<<<: ', validatedUserInput)
 
             }
 
@@ -348,6 +353,7 @@ module.exports = function (req, res, cb) {
         } else {
 
           cb(null, validatedUserInput)
+          console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> serverSideValidation 4 <<<<<<<<<<<<<<<<<<<: ', validatedUserInput)
 
         }
       }
@@ -357,6 +363,7 @@ module.exports = function (req, res, cb) {
   } else {
 
     cb(null, validatedUserInput)
+    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> serverSideValidation 5 <<<<<<<<<<<<<<<<<<<: ', validatedUserInput)
 
   }
 }

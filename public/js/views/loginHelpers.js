@@ -5,29 +5,32 @@ var helper = {
 
   init: function () {
     window.showLoading = function () {
-        $('.modal-backdrop').show();
-    };
+        $('.modal-backdrop').show()
+    }
     window.hideLoading = function () {
-        $('.modal-backdrop').hide();
-    };
+        $('.modal-backdrop').hide()
+    }
 
-    showLoading();
+    showLoading()
 
-    setTimeout(function () { hideLoading(); }, 500);
+    setTimeout(function () { hideLoading() }, 500)
 
-    helper.initializeJqueryEvents();
+    helper.initializeJqueryEvents()
   },
 
   initializeJqueryEvents: function (){
-    var emailPattern = /^\S+@\S+\.\S+/;
-    var passwordPattern = /^\S{4,}$/;
+
+    helper.initializeIndexView()
+
+    var emailPattern = /^\S+@\S+\.\S+/
+    var passwordPattern = /^\S{4,}$/
 
     $('#forgotPasswordAnchor').click(function (){
       $('#forgotPasswordFormModal').modal({
         keyboard: false,
         backdrop: 'static'
       })
-    });
+    })
 
     $('#forgotPasswordFormModal').on('hidden.bs.modal', function () {
       $("#forgotPasswordForm").get(0).reset()
@@ -40,7 +43,7 @@ var helper = {
       $('.modalCancelSubmitBtns').show()
       var nextModal = $('body').data('doNextModal')
       nextModal ? helper.doNextModal(nextModal) : null
-    });
+    })
 
     $('#forgotPasswordForm').on('submit', function (e) {
       e.preventDefault()
@@ -145,6 +148,7 @@ var helper = {
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             accepts: 'application/json',
+            async: true,
 
             success: function (data, status, xhr) {
               if (data.response === 'success') {
@@ -152,20 +156,12 @@ var helper = {
                 hideLoading()
 
                 window.localStorage.setItem('token', data.token)
-                console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginForm > SUCCESS > SUCCESS > dataT: ', data.token)
-                console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginForm > SUCCESS > SUCCESS > dataR: ', data.redirect)
-                //helper.directSuccess(data.redirect)
-                // $('#main').html($(data).find('#main *'))
-                //var $title = $('<h1>').text(data.talks[0].talk_title);
-                //var $description = $('<p>').text(data.talks[0].talk_description);
-                //$('#info')
-                //.append($title)
-                //.append($description)
-                // $('#response pre').html( JSON.stringify( data ) )
-                
-                 $('.content').html(response)
-                
+                console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginForm > SUCCESS > SUCCESS: ', data)
+                //location.href = data.redirect
+                helper.loginRedirect(data.redirect)
+
               } else {
+                console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginForm > SUCCESS > ERROR: ', data)
                 hideLoading()
                 if(data.validatedData){
                   $('#loginForm .form-control').addClass('has-error')
@@ -175,41 +171,47 @@ var helper = {
                 }else{
                   $('#loginForm .formerror').removeClass('hide').addClass('show')
                 }
-
                 return false
               }
             },
 
             error: function (xhr, status, error) {
+              console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginForm > ERROR > ERROR: ', xhr)
               hideLoading()
-              var parsedXHR = JSON.parse(xhr.responseText)
+              /*var parsedXHR = JSON.parse(xhr.responseText)
               $('#modalAlert .modal-title').html(parsedXHR.err.title)
               $('#modalAlert .alertDanger').html(parsedXHR.err.alert)
               $('#modalAlert #errScrollbox').html(parsedXHR.err.message)
               $('#modalAlert .alertDanger').addClass('show').removeClass('hide')
-              $('#modalAlert').modal({ keyboard: false,backdrop: 'static' })
+              $('#modalAlert').modal({ keyboard: false,backdrop: 'static' })*/
               return false
             },
 
-        });
+        })
       }
     })
   },
 
-  directSuccess: function (redirect) {
+  loginRedirect: function (redirect) {
 
-    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> directSuccess > redirect: ', redirect)
+    // headers: {'Authorization': 'Bearer ' + window.localStorage.getItem('token')},
+    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginRedirect > redirect: ', redirect)
+    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginRedirect > csrf: ', $('meta[name="csrf-token"]').attr('content'))
+    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginRedirect > token: ', window.localStorage.getItem('token'))
+
     showLoading()
-    var data = {}
-    data['_csrf'] = $('meta[name="csrf-token"]').attr('content')
 
-    var csrf
-    var token
+    var data = {}
+
+    //data['_csrf'] = $('meta[name="csrf-token"]').attr('content')
+    //data['Authorization'] = 'Bearer ' + window.localStorage.getItem('token')
 
     $.ajax({
       rejectUnauthorized: false,
       url: redirect,
-      type: 'GET',
+      type: 'POST',
+      data: JSON.stringify(data),
+      headers: {'Authorization': 'Bearer ' + window.localStorage.getItem('token')},
       dataType: 'json',
       contentType: 'application/json; charset=utf-8',
       accepts: 'application/json',
@@ -218,11 +220,12 @@ var helper = {
         hideLoading()
 
         if (data.response === 'success') {
-          console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> directSuccess > SUCCESS > SUCCESS > data: ', data)
-          location.href = data.redirect
+          console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginRedirect > SUCCESS > SUCCESS > data: ', data)
+          // location.href = data.redirect
+          // window.location = 'https'
 
         } else {
-          console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> directSuccess > SUCCESS > ERROR')
+          console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginRedirect > SUCCESS > ERROR')
         }
         
       },
@@ -236,15 +239,42 @@ var helper = {
         $('#modalAlert').modal({ keyboard: false,backdrop: 'static' })
         cb('error')
         */
-        console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> directSuccess > ERROR > ERROR1: ', xhr)
-        console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> directSuccess > ERROR > ERROR2: ', error)
+        console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginRedirect > ERROR > ERROR1: ', xhr)
+        console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginRedirect > ERROR > ERROR2: ', error)
+      }
+    })
+  },
+
+  initializeIndexView: function () {
+    console.log('>>>>>> loginHelpers > initializeLoginView <<<<<<')
+    showLoading()
+
+    $.ajax({
+      rejectUnauthorized: false,
+      url: 'http://localhost:3000/api/loginview/init',
+      type: 'GET',
+      dataType: 'json',
+      contentType: 'application/json; charset=utf-8',
+      accepts: 'application/json',
+      async: true,
+
+      success: function (data, status, xhr) {
+        if (data.response === 'success') {
+
+          hideLoading()
+          console.log('>>>>>> loginview > success <<<<<<: ', data.message)
+
+        } else {
+
+          hideLoading()
+          console.log('>>>>>> loginview > error <<<<<<')
+        }
       },
-      beforeSend : function( xhr ) { 
-        csrf = $('meta[name="csrf-token"]').attr('content')
-        token = window.localStorage.getItem('token')
-        xhr.setRequestHeader( 'csrf-token', csrf )
-        xhr.setRequestHeader( 'authorization', 'Bearer ' + token )
-      },
+
+      error: function (xhr, status, error) {
+        hideLoading()
+        console.log('>>>>>> loginview > xhr error <<<<<<')
+      }
     })
   },
 
@@ -259,33 +289,33 @@ var helper = {
   },
 
   showLoading: function () {
-    $('.modal-backdrop').show();
+    $('.modal-backdrop').show()
   },
 
   hideLoading: function () {
-    $('.modal-backdrop').hide();
+    $('.modal-backdrop').hide()
   },
 
   clearForgotPassword: function () {
-    $("#forgotPasswordForm").get(0).reset();
-    $('#forgotPassword').removeAttr('disabled');
-    $('#forgotPasswordForm .loginerror').removeClass('show').html('');
-    $('#forgotPasswordForm .formerror').removeClass('show');
-    $('#forgotPassword').removeClass('has-error');
+    $("#forgotPasswordForm").get(0).reset()
+    $('#forgotPassword').removeAttr('disabled')
+    $('#forgotPasswordForm .loginerror').removeClass('show').html('')
+    $('#forgotPasswordForm .formerror').removeClass('show')
+    $('#forgotPassword').removeClass('has-error')
     $('.alertWarning').addClass('hide').removeClass('show')
-    $('.modalOkayBtn').hide();
-    $('.modalCancelSubmitBtns').show();
+    $('.modalOkayBtn').hide()
+    $('.modalCancelSubmitBtns').show()
   },
 
   handleErrorResponse: function (data) {
     Object.keys(data).forEach(function (p) {
       switch (p) {
         case 'email':
-          // console.log('handleErrorResponse: ', p, ' :: ', data[p]);
+          // console.log('handleErrorResponse: ', p, ' :: ', data[p])
           break;
         
         case 'password':
-          // console.log('handleErrorResponse: ', p, ' :: ', data[p]);
+          // console.log('handleErrorResponse: ', p, ' :: ', data[p])
           break;
       }
     })

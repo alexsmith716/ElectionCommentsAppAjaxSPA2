@@ -34,11 +34,12 @@ var validateMaxLengthUserInput = function (val,maxlen) {
 }
 
 module.exports.getIndexResponse = function (req, res) {
-  sendJSONresponse(res, 200), { "response": "getIndexResponse Response!!!" }
+  sendJSONresponse(res, 200), { 'response': 'sendJSONresponse - success' }
 }
 
-module.exports.getUserHomeResponse = function (req, res) {
-  sendJSONresponse(res, 200), { "response": "getUserHomeResponse Response!!!" }
+module.exports.doLoginUser = function (req, res) {
+  console.log('>>>>>>>>>>>>>>>> api > doLoginUser <<<<<<<<<<<<<<<<<')
+  sendJSONresponse(res, 200), { 'response': 'sendJSONresponse - success' }
 }
 
 // holding off on updating comments for next project version +++++++++++++++++++++++++++++++
@@ -218,6 +219,19 @@ module.exports.deleteOneComment = function(req, res) {
     sendJSONresponse(res, 404, { "response": "No commentid in request" });
   }
 };
+
+/* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+/* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+
+
+module.exports.ajaxIndexViewInit = function (req, res, next) {
+  sendJSONresponse(res, 201, { 'response': 'success', 'message': 'sendJSONresponse - success'})
+}
+
+module.exports.ajaxLoginViewInit = function (req, res, next) {
+  sendJSONresponse(res, 201, { 'response': 'success', 'message': 'sendJSONresponse - success'})
+}
+
 
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
@@ -708,17 +722,16 @@ module.exports.ajaxForgotPassword = function (req, res, next) {
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 
 module.exports.ajaxUserHome = function (req, res, next) {
-  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ajaxUserHome > req.headers1: ', req.headers)
-  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ajaxUserHome > req.headers2: ', req.headers['csrf-token'])
-  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ajaxUserHome > req.headers3: ', req.headers['authorization'])
-  res.set('csrf-token', req.headers['csrf-token'])
-  res.set('authorization', req.headers['authorization'])
-  sendJSONresponse(res, 200, { 'response': 'success', 'redirect': 'https://localhost:3000/userhome' })
+  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ajaxUserHome > req.body: ', req.body)
+  //res.set('csrf-token', req.headers['csrf-token'])
+  //res.set('authorization', req.headers['authorization'])
+  sendJSONresponse(res, 200, { 'response': 'success', 'redirect': 'http://localhost:3000/userhome' })
 }
 
-module.exports.ajaxLoginUser = function (req, res, next) {
 
-  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ajaxLoginUser 1 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
+module.exports.doVerifyLoginCredentials = function (req, res, next) {
+
+  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ajaxLoginUser 1 <<<<<<<<<<<<<<<<<<<: ', req.body)
 
   var validationErrors = false
   req.body.template = {email: 'required', password: 'required', expectedResponse: 'true'}
@@ -755,9 +768,13 @@ module.exports.ajaxLoginUser = function (req, res, next) {
 
           if (!user) {
 
+            console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ajaxLoginUser > passport.authenticate > NO USER <<<<<<<<<<<<')
+
             sendJSONresponse(res, 201, { 'response': 'error' })
 
           } else {
+
+            console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ajaxLoginUser > passport.authenticate > YES USER <<<<<<<<<<<<')
 
             user.generateJWT(function (err, token) {
 
@@ -767,9 +784,10 @@ module.exports.ajaxLoginUser = function (req, res, next) {
               }
 
               console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ajaxLoginUser > generateJWT > token: ', token)
-              //res.set('X-CSRF-Token', csrf )
-              res.set('authorization', 'Bearer ' + token)
-              sendJSONresponse(res, 200, { 'response': 'success', 'token': token, 'redirect': 'https://localhost:3000/api/userhome' })
+              // res.set('X-CSRF-Token', csrf )
+              // res.set('authorization', 'Bearer ' + token)
+              // res.cookie('jwt', jwt)
+              sendJSONresponse(res, 200, { 'response': 'success', 'token': token, 'redirect': 'http://localhost/api/loginuser' })
             })
           }
         })(req, res)
@@ -779,6 +797,8 @@ module.exports.ajaxLoginUser = function (req, res, next) {
     }
   })
 }
+
+
 
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
@@ -874,7 +894,7 @@ module.exports.ajaxSignUpUser = function (req, res, next) {
                     return next(err)
                   }
 
-                  sendJSONresponse(res, 201, { 'response': 'success', 'redirect': 'https://localhost:3000/userhome' })
+                  sendJSONresponse(res, 201, { 'response': 'success', 'redirect': 'http://localhost:3000/userhome' })
 
                 })
               }

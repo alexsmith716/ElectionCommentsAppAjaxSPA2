@@ -1,0 +1,89 @@
+extends layout
+
+block metas
+
+block title
+  title User Homepage
+  
+block links
+
+block headScripts
+
+block bodyScripts
+  - if ( err )
+    script.
+      $('#modalAlert .modal-title').html( '!{err.title}' )
+      $('#modalAlert .alertDanger').html( '!{err.alert}' )
+      $('#modalAlert #errScrollbox').html( '!{err.message}' )
+      $('#modalAlert .alertDanger').addClass('show').removeClass('hide')
+      $('#modalAlert').modal({keyboard: false,backdrop: 'static'})
+
+
+
+block content
+
+  .container
+
+    // Page Heading/Breadcrumbs
+    .row
+      .col-lg-12
+        h1.page-header
+          | Welcome back!
+          // <small></small>
+        |                 
+        ol.breadcrumb
+          li
+            a(href='#') Home
+          |                     
+          li.active Log In
+
+    // Log In form
+    .row
+      .col-xs-12.col-sm-3.col-md-3.col-lg-3
+
+        div(align="center")
+          <!-- img(src="/images/someUser.jpg") -->
+        br
+
+      .col-xs-12.col-sm-7.col-md-7.col-lg-7
+
+        div(align="center")
+
+
+          div
+            a.btn.btn-primary.btn-md(href="/userprofile") Account Settings
+            br
+            br
+            a.btn.btn-primary.btn-md(href="/resources") Resources
+            br
+            br
+            a.btn.btn-primary.btn-md(href="/comments") Latest Comments
+            br
+            br
+            a.btn.btn-primary.btn-md(href="") My Comments
+            br
+            br
+            a.btn.btn-primary.btn-md(href="") Most Commented
+            br
+            br
+            a.btn.btn-primary.btn-md(href="") Most Recommended
+
+
+      .modal.fade(id='modalAlert', tabindex='-1')
+        .modal-dialog
+          .modal-content
+            .modal-header
+              button.close(type="button" data-dismiss="modal") &times;
+              h4.modal-title
+
+            .modal-body
+
+              .alertSuccess.alert.alert-success.hide(role="alert", style="margin-top: 10px; margin-bottom: 22px;")
+              .alertWarning.alert.alert-warning.hide(role="alert", style="margin-top: 10px; margin-bottom: 22px;")
+              .alertDanger.alert.alert-danger.hide(role="alert", style="margin-top: 10px; margin-bottom: 22px;")
+
+              div(id="errScrollbox")
+
+              button(class="btn btn-default btn-md", data-dismiss="modal", style="margin-top: 6px;") OK
+
+            .modal-footer
