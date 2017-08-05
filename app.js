@@ -252,8 +252,8 @@ if (app.get('env') === 'development') {
     //console.log('############################# DEV ERR.message: ', err.message)
     //console.log('############################# DEV ERR.referer: ', err.referer)
     //console.log('############################# ++++++++++++++++++++++++++++++++++++++++')
-    //console.log('############################# DEV REQ.originalUrl: ',  req.originalUrl)
-    //console.log('############################# DEV REQ.HEADERS.referer: ', req.headers['referer'])
+    console.log('############################# DEV REQ.originalUrl: ',  req.originalUrl)
+    console.log('############################# DEV REQ.HEADERS.referer: ', req.headers['referer'])
     //console.log('############################# DEV REQ.xhr: ', req.xhr)
 
     var referer
@@ -297,7 +297,8 @@ module.exports = app
 app.set('port', process.env.PORT || 3000)
 //var server = https.createServer(options, app).listen(app.get('port'), '127.0.0.1', function () {
 //var server = https.createServer(options, app).listen(3000, 'localhost', function () {
-var server = http.createServer(app).listen(3000, 'localhost', function () {
+var server = http.createServer(app).listen(3000, '127.0.0.1', function () {
+//var server = https.createServer(options, app).listen(3000, '127.0.0.1', function () {
   console.log('Express server listening on port ' + server.address().port)
   console.log('Express server listening on port ' + server.address().address)
 })

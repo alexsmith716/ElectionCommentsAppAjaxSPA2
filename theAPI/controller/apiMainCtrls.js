@@ -39,7 +39,7 @@ module.exports.getIndexResponse = function (req, res) {
 
 module.exports.doLoginUser = function (req, res) {
   console.log('>>>>>>>>>>>>>>>> api > doLoginUser <<<<<<<<<<<<<<<<<')
-  sendJSONresponse(res, 200), { 'response': 'sendJSONresponse - success' }
+  sendJSONresponse(res, 201, { 'response': 'success' })
 }
 
 // holding off on updating comments for next project version +++++++++++++++++++++++++++++++
@@ -725,7 +725,7 @@ module.exports.ajaxUserHome = function (req, res, next) {
   console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ajaxUserHome > req.body: ', req.body)
   //res.set('csrf-token', req.headers['csrf-token'])
   //res.set('authorization', req.headers['authorization'])
-  sendJSONresponse(res, 200, { 'response': 'success', 'redirect': 'http://localhost:3000/userhome' })
+  sendJSONresponse(res, 200, { 'response': 'success', 'redirect': 'http://127.0.0.1:3000/userhome' })
 }
 
 
@@ -787,7 +787,7 @@ module.exports.doVerifyLoginCredentials = function (req, res, next) {
               // res.set('X-CSRF-Token', csrf )
               // res.set('authorization', 'Bearer ' + token)
               // res.cookie('jwt', jwt)
-              sendJSONresponse(res, 200, { 'response': 'success', 'token': token, 'redirect': 'http://localhost/api/loginuser' })
+              sendJSONresponse(res, 200, { 'response': 'success', 'token': token, 'redirect': 'http://127.0.0.1:3000/api/loginuser' })
             })
           }
         })(req, res)

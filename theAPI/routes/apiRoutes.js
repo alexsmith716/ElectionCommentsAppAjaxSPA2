@@ -27,7 +27,7 @@ router.get('/indexview/init', apiControllers.ajaxIndexViewInit)
 
 router.post('/doverifylogincredentials', csrfProtection, apiControllers.doVerifyLoginCredentials)
 
-router.post('/loginuser', auth.jwtAuthAPI, apiControllers.doLoginUser)
+router.post('/loginuser', csrfProtection, auth.jwtAuthAPI, apiControllers.doLoginUser)
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

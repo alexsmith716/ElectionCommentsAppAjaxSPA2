@@ -17,8 +17,8 @@ var pug = require('pug')
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */
 
 var apiOptions = {
-  // server : 'https://localhost:3000'
-  server : 'http://localhost:3000'
+  server : 'http://127.0.0.1:3000'
+  // server : 'http://localhost:3000'
 }
 
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */

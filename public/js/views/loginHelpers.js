@@ -133,6 +133,7 @@ var helper = {
         return false
 
       } else {
+        
         data = {
           email: email,
           password: password
@@ -141,51 +142,51 @@ var helper = {
         data['_csrf'] = $('meta[name="csrf-token"]').attr('content')
 
         $.ajax({
-            rejectUnauthorized: false,
-            url: serviceUrl,
-            type: 'POST',
-            data: JSON.stringify(data),
-            dataType: 'json',
-            contentType: 'application/json; charset=utf-8',
-            accepts: 'application/json',
-            async: true,
+          rejectUnauthorized: false,
+          url: serviceUrl,
+          type: 'POST',
+          data: JSON.stringify(data),
+          dataType: 'json',
+          contentType: 'application/json; charset=utf-8',
+          accepts: 'application/json',
+          async: true,
 
-            success: function (data, status, xhr) {
-              if (data.response === 'success') {
+          success: function (data, status, xhr) {
+            if (data.response === 'success') {
 
-                hideLoading()
-
-                window.localStorage.setItem('token', data.token)
-                console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginForm > SUCCESS > SUCCESS: ', data)
-                //location.href = data.redirect
-                helper.loginRedirect(data.redirect)
-
-              } else {
-                console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginForm > SUCCESS > ERROR: ', data)
-                hideLoading()
-                if(data.validatedData){
-                  $('#loginForm .form-control').addClass('has-error')
-                  $('#loginForm .loginerror').addClass('show')
-                  $('#loginForm .loginerror').html('Email and Password don\'t match. Please try again.')
-                  // helper.handleErrorResponse(data.validatedData)
-                }else{
-                  $('#loginForm .formerror').removeClass('hide').addClass('show')
-                }
-                return false
-              }
-            },
-
-            error: function (xhr, status, error) {
-              console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginForm > ERROR > ERROR: ', xhr)
               hideLoading()
-              /*var parsedXHR = JSON.parse(xhr.responseText)
-              $('#modalAlert .modal-title').html(parsedXHR.err.title)
-              $('#modalAlert .alertDanger').html(parsedXHR.err.alert)
-              $('#modalAlert #errScrollbox').html(parsedXHR.err.message)
-              $('#modalAlert .alertDanger').addClass('show').removeClass('hide')
-              $('#modalAlert').modal({ keyboard: false,backdrop: 'static' })*/
+
+              window.localStorage.setItem('token', data.token)
+              console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginForm > SUCCESS > SUCCESS: ', data)
+              //location.href = data.redirect
+              helper.loginRedirect(data.redirect)
+
+            } else {
+              console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginForm > SUCCESS > ERROR: ', data)
+              hideLoading()
+              if(data.validatedData){
+                $('#loginForm .form-control').addClass('has-error')
+                $('#loginForm .loginerror').addClass('show')
+                $('#loginForm .loginerror').html('Email and Password don\'t match. Please try again.')
+                // helper.handleErrorResponse(data.validatedData)
+              }else{
+                $('#loginForm .formerror').removeClass('hide').addClass('show')
+              }
               return false
-            },
+            }
+          },
+
+          error: function (xhr, status, error) {
+            console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginForm > ERROR > ERROR: ', xhr)
+            hideLoading()
+            /*var parsedXHR = JSON.parse(xhr.responseText)
+            $('#modalAlert .modal-title').html(parsedXHR.err.title)
+            $('#modalAlert .alertDanger').html(parsedXHR.err.alert)
+            $('#modalAlert #errScrollbox').html(parsedXHR.err.message)
+            $('#modalAlert .alertDanger').addClass('show').removeClass('hide')
+            $('#modalAlert').modal({ keyboard: false,backdrop: 'static' })*/
+            return false
+          },
 
         })
       }
@@ -203,7 +204,7 @@ var helper = {
 
     var data = {}
 
-    //data['_csrf'] = $('meta[name="csrf-token"]').attr('content')
+    data['_csrf'] = $('meta[name="csrf-token"]').attr('content')
     //data['Authorization'] = 'Bearer ' + window.localStorage.getItem('token')
 
     $.ajax({
@@ -251,7 +252,7 @@ var helper = {
 
     $.ajax({
       rejectUnauthorized: false,
-      url: 'http://localhost:3000/api/loginview/init',
+      url: 'http://127.0.0.1:3000/api/loginview/init',
       type: 'GET',
       dataType: 'json',
       contentType: 'application/json; charset=utf-8',
