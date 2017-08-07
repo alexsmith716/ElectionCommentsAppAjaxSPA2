@@ -42,8 +42,8 @@ router.get('/notifyerror', serverControllers.getNotifyError)
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-// router.post('/loginuser', csrfProtection, serverControllers.doLoginUser)
-router.post('/loginuser', csrfProtection, auth.jwtAuthAPI, serverControllers.doLoginUser)
+//router.post('/loginuser', csrfProtection, auth.jwtAuthAPI, serverControllers.doLoginUser)
+router.get('/loginuser', serverControllers.doLoginUser)
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

@@ -207,14 +207,12 @@ app.use(function (req, res, next) {
   next()
 })
 
-app.use(function (req, res, next) {
-
-  res.header('Access-Control-Allow-Origin', '*')
+//app.use(function (req, res, next) {
+  //res.header('Access-Control-Allow-Origin', '*')
   //res.header('Access-Control-Allow-Methods',)
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
-
-  next()
-})
+  //res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+  //next()
+//})
 
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */
@@ -267,21 +265,19 @@ if (app.get('env') === 'development') {
     console.log('############################# APP UNCAUGHT ERR HANDLER DEVELOPMENT > req.session.renderableErr ############################: ')
 
     if (req.xhr) {
-
       console.log('############################# APP UNCAUGHT ERR HANDLER DEVELOPMENT > YES XHR ############################')
       res.json({'response': 'error', 'type': 'error', 'err': req.session.renderableErr})
 
     } else {
 
-      //if (referer) {
-        //console.log('############################# APP UNCAUGHT ERR HANDLER DEVELOPMENT > NO XHR - referer #############################: ', referer)
-        //res.redirect(referer)
+      if (referer) {
+        console.log('############################# APP UNCAUGHT ERR HANDLER DEVELOPMENT > NO XHR - referer #############################: ', referer)
+        res.redirect(referer)
 
-      //} else {
+      } else {
         console.log('############################# APP UNCAUGHT ERR HANDLER DEVELOPMENT > NO XHR - other #############################')
         res.redirect('/notifyerror')
-
-      //}
+      }
     }
   })
 }

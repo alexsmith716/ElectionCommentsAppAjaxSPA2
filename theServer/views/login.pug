@@ -1,18 +1,24 @@
 
 extends layout
 
+
 block metas
   meta(name="csrf-token", content= `${csrfToken}`)
+
 
 block title
   title Log In
 
+
 block links
+
 
 block headScripts
 
+
 block bodyScripts
   script(src='/js/views/loginHelpers.js')
+
   - if ( err )
     script.
       $('#modalAlert .modal-title').html( '!{err.title}' )
@@ -20,8 +26,10 @@ block bodyScripts
       $('#modalAlert #errScrollbox').html( '!{err.message}' )
       $('#modalAlert .alertDanger').addClass('show').removeClass('hide')
       $('#modalAlert').modal({keyboard: false,backdrop: 'static'})
+
   script.
     console.log('isSafari: ', isSafari)
+
 
 block content
 
@@ -45,18 +53,18 @@ block content
       .col-lg-12
         h3 Please sign in
         |                 
-        form(action="http://127.0.0.1:3000/api/doverifylogincredentials", id="loginForm", name="loginForm", method="post", enctype="application/x-www-form-urlencoded")
-          .control-group.form-group
+        form(action="http://127.0.0.1:3000/api/logincredentials", id="loginForm", name="loginForm", method="post", enctype="application/x-www-form-urlencoded")
+          div.form-group(id="login-email")
             .controls
               label Email Address:
               |                             
-              input.form-control(id="login-email", name="login-email", placeholder="Email Address", type="text", title="Please enter a valid Email Address", required)
+              input.form-control(name="email", placeholder="Email Address", type="text", title="Please enter a valid Email Address", required)
           |                     
-          .control-group.form-group
+          div.form-group(id="login-password")
             .controls
               label Password:
               |                             
-              input.form-control(id="login-password", name="login-password", placeholder="Password", type="password", autocomplete="off", title="Please enter your Password", required)
+              input.form-control(name="password", placeholder="Password", type="password", autocomplete="off", title="Please enter your Password", required)
               |                             
               p.help-block
           |                     
@@ -117,11 +125,11 @@ block content
 
                 .alertWarning.alert.alert-warning.hide(role="alert", style="margin-top: 6px; margin-bottom: 12px;")
 
-                .form-group
+                div.form-group(id="forgot-password")
 
                   label.control-label(style="margin-top:10px;") Email:
 
-                  input.form-control.input-md(id="forgotPassword", name="forgotPassword", placeholder="Email Address", title="Please enter a valid Email Address", type="email", required)
+                  input.form-control.input-md(name="email", placeholder="Email Address", title="Please enter a valid Email Address", type="email", required)
 
                   .text-danger.hide.loginerror(style="margin-top:8px;") Email is required
 
