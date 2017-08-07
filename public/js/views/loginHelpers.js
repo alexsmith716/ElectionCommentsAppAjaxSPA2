@@ -15,6 +15,7 @@ var helper = {
 
     setTimeout(function () { hideLoading() }, 500)
 
+    console.log('CSRF: ', $('meta[name="csrf-token"]').attr('content'))
     helper.initializeJqueryEvents()
   },
 
@@ -52,7 +53,7 @@ var helper = {
       $('#forgotPasswordForm .loginerror').removeClass('show').html('')
 
       var data = {}
-      var email = $('#forgotPassword').val()
+      var email = $('#forgot-password input[name=email]').val()
       var isEmailValid = emailPattern.test(email)
       var serviceUrl = $(this).attr('action')
 
@@ -116,6 +117,11 @@ var helper = {
     })
 
     $('#loginForm').on('submit', function (e) {
+
+      console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginForm > email: ', $('#login-email input[name=email]').val())
+      console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginForm > password: ', $('#login-password input[name=password]').val())
+      console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginForm > csrf: ', $('meta[name="csrf-token"]').attr('content'))
+
       e.preventDefault()
       showLoading()
 
@@ -124,8 +130,8 @@ var helper = {
       $('#loginForm .form-control').removeClass('has-error')
 
       var data = {}
-      var email = $('#login-email').val()
-      var password = $('#login-password').val()
+      var email = $('#login-email input[name=email]').val()
+      var password = $('#login-password input[name=password]').val()
       var serviceUrl = $(this).attr('action')
       
       if (email === '' || password === '') {
@@ -138,7 +144,6 @@ var helper = {
           email: email,
           password: password
         }
-
         data['_csrf'] = $('meta[name="csrf-token"]').attr('content')
 
         $.ajax({
@@ -158,8 +163,14 @@ var helper = {
 
               window.localStorage.setItem('token', data.token)
               console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginForm > SUCCESS > SUCCESS: ', data)
-              //location.href = data.redirect
-              helper.loginRedirect(data.redirect)
+              // location.href = data.redirect
+              // helper.loginRedirect(data.redirect)
+              // $('#main').html($(data).find('#main *'))
+              // var $title = $('<h1>').text(data.foo[0].foo-title);
+              // var $description = $('<p>').text(data.foo[0].foo-description);
+              // $('#foober').append($title).append($description)
+              // $('#response pre').html( JSON.stringify( data ) )
+              window.location.replace('http://127.0.0.1:3000/about')
 
             } else {
               console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginForm > SUCCESS > ERROR: ', data)
@@ -179,12 +190,12 @@ var helper = {
           error: function (xhr, status, error) {
             console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginForm > ERROR > ERROR: ', xhr)
             hideLoading()
-            /*var parsedXHR = JSON.parse(xhr.responseText)
+            var parsedXHR = JSON.parse(xhr.responseText)
             $('#modalAlert .modal-title').html(parsedXHR.err.title)
             $('#modalAlert .alertDanger').html(parsedXHR.err.alert)
             $('#modalAlert #errScrollbox').html(parsedXHR.err.message)
             $('#modalAlert .alertDanger').addClass('show').removeClass('hide')
-            $('#modalAlert').modal({ keyboard: false,backdrop: 'static' })*/
+            $('#modalAlert').modal({ keyboard: false,backdrop: 'static' })
             return false
           },
 
@@ -195,24 +206,26 @@ var helper = {
 
   loginRedirect: function (redirect) {
 
-    // headers: {'Authorization': 'Bearer ' + window.localStorage.getItem('token')},
+    //       headers: {'Authorization': 'Bearer ' + window.localStorage.getItem('token')},
     console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginRedirect > redirect: ', redirect)
     console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginRedirect > csrf: ', $('meta[name="csrf-token"]').attr('content'))
     console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginRedirect > token: ', window.localStorage.getItem('token'))
+    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginRedirect > XXX: ', JSON.stringify($(this).serializeArray()))
 
     showLoading()
 
     var data = {}
-
     data['_csrf'] = $('meta[name="csrf-token"]').attr('content')
-    //data['Authorization'] = 'Bearer ' + window.localStorage.getItem('token')
+    data['Authorization'] = 'Bearer ' + window.localStorage.getItem('token')
+    /*var data = {
+      _csrf: $('meta[name="csrf-token"]').attr('content')
+    }*/
 
     $.ajax({
       rejectUnauthorized: false,
-      url: redirect,
+      url: 'http://127.0.0.1:3000/loginuser',
       type: 'POST',
-      data: JSON.stringify(data),
-      headers: {'Authorization': 'Bearer ' + window.localStorage.getItem('token')},
+      data: JSON.stringify($(this).serializeArray()),
       dataType: 'json',
       contentType: 'application/json; charset=utf-8',
       accepts: 'application/json',
@@ -222,8 +235,8 @@ var helper = {
 
         if (data.response === 'success') {
           console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginRedirect > SUCCESS > SUCCESS > data: ', data)
-          // location.href = data.redirect
-          // window.location = 'https'
+          //location.href = data.redirect
+          window.location.replace(data.redirect)
 
         } else {
           console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginRedirect > SUCCESS > ERROR')
@@ -232,16 +245,14 @@ var helper = {
       },
       error: function (xhr, status, error) {
         hideLoading()
-        /*var parsedXHR = JSON.parse(xhr.responseText)
+        var parsedXHR = JSON.parse(xhr.responseText)
         $('#modalAlert .modal-title').html(parsedXHR.err.title)
         $('#modalAlert .alertDanger').html(parsedXHR.err.alert)
         $('#modalAlert #errScrollbox').html(parsedXHR.err.message)
         $('#modalAlert .alertDanger').addClass('show').removeClass('hide')
         $('#modalAlert').modal({ keyboard: false,backdrop: 'static' })
-        cb('error')
-        */
-        console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginRedirect > ERROR > ERROR1: ', xhr)
-        console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginRedirect > ERROR > ERROR2: ', error)
+        console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginRedirect > ERROR > ERROR: ', xhr)
+        console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginRedirect > ERROR > ERROR: ', error)
       }
     })
   },

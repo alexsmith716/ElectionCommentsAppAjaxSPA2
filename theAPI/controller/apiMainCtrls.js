@@ -34,12 +34,7 @@ var validateMaxLengthUserInput = function (val,maxlen) {
 }
 
 module.exports.getIndexResponse = function (req, res) {
-  sendJSONresponse(res, 200), { 'response': 'sendJSONresponse - success' }
-}
-
-module.exports.doLoginUser = function (req, res) {
-  console.log('>>>>>>>>>>>>>>>> api > doLoginUser <<<<<<<<<<<<<<<<<')
-  sendJSONresponse(res, 201, { 'response': 'success' })
+  sendJSONresponse(res, 200), { 'response': 'success' }
 }
 
 // holding off on updating comments for next project version +++++++++++++++++++++++++++++++
@@ -229,6 +224,14 @@ module.exports.ajaxIndexViewInit = function (req, res, next) {
 }
 
 module.exports.ajaxLoginViewInit = function (req, res, next) {
+  sendJSONresponse(res, 201, { 'response': 'success', 'message': 'sendJSONresponse - success'})
+}
+
+module.exports.ajaxUserHomeViewInit = function (req, res, next) {
+  sendJSONresponse(res, 201, { 'response': 'success', 'message': 'sendJSONresponse - success'})
+}
+
+module.exports.ajaxResourcesViewInit = function (req, res, next) {
   sendJSONresponse(res, 201, { 'response': 'success', 'message': 'sendJSONresponse - success'})
 }
 
@@ -721,17 +724,95 @@ module.exports.ajaxForgotPassword = function (req, res, next) {
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 
-module.exports.ajaxUserHome = function (req, res, next) {
-  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ajaxUserHome > req.body: ', req.body)
-  //res.set('csrf-token', req.headers['csrf-token'])
-  //res.set('authorization', req.headers['authorization'])
-  sendJSONresponse(res, 200, { 'response': 'success', 'redirect': 'http://127.0.0.1:3000/userhome' })
+module.exports.doLoginUser = function (req, res) {
+  console.log('>>>>>>>>>>>>>>>> api > doLoginUser <<<<<<<<<<<<<<<<<')
+  sendJSONresponse(res, 200, { 'response': 'success' })
+}
+
+/* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+/* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+
+module.exports.doLoginCredentialsXX = function (req, res, next) {
+
+  req.body.template = {email: 'required', password: 'required', expectedResponse: 'true'}
+
+  // var testerJOB = {email: 'aaa1@aa a.com', password: '  pppp   '}
+  // req.body.template = testerJOB
+
+  serverSideValidation(req, res, function (err, validatedResponse) {
+
+    if (err) {
+
+      console.log('>>>>>>>>>>>>>>>>>>>>>>> ajaxLoginUser > serverSideValidation <<<<<<<<<<<<<<<<<<< YES ERR: ', err)
+
+      return next(err)
+
+    } else {
+
+      var validationErrors = false
+
+      for (var prop in validatedResponse) {
+
+        if (validatedResponse[prop].error !== false && validatedResponse[prop].error !== 'match') {
+          validationErrors = true
+          break
+
+        }
+      }
+
+      if (!validationErrors) {
+
+        passport.authenticate('local', function (err, user, info) {
+
+          if (err) {
+            return next(err)
+          }
+
+          if (!user) {
+            sendJSONresponse(res, 201, { 'response': 'error' })
+            return
+
+          }
+
+          req.logIn(user, function (err) {
+
+            if (err) { 
+
+              return next(err)
+
+            } else {
+
+              user.previouslogin = user.lastlogin
+              user.lastlogin = new Date()
+
+              user.save(function (err, success) {
+                if (err) {
+                  return next(err)
+
+                } else {
+                  sendJSONresponse(res, 201, { 'response': 'success', 'redirect': 'https://localhost:3000/userhome' })
+
+                }
+              })
+            }
+
+          })
+
+        })(req, res)
+
+      } else {
+
+        sendJSONresponse(res, 201, { 'response': 'error', 'validatedData': validatedResponse })
+
+      }
+    }
+  })
 }
 
 
-module.exports.doVerifyLoginCredentials = function (req, res, next) {
+module.exports.doLoginCredentials = function (req, res, next) {
 
-  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ajaxLoginUser 1 <<<<<<<<<<<<<<<<<<<: ', req.body)
+  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> doLoginCredentials <<<<<<<<<<<<<<<<<<<: ', req.body)
 
   var validationErrors = false
   req.body.template = {email: 'required', password: 'required', expectedResponse: 'true'}
@@ -754,11 +835,11 @@ module.exports.doVerifyLoginCredentials = function (req, res, next) {
 
     if (!validationErrors) {
 
-      req.session.regenerate(function (err) {
+      // req.session.regenerate(function (err) {
 
-        if (err) {
-          return next(err)
-        }
+        // if (err) {
+          // return next(err)
+        // }
 
         passport.authenticate('local', function (err, user, info) {
 
@@ -768,30 +849,51 @@ module.exports.doVerifyLoginCredentials = function (req, res, next) {
 
           if (!user) {
 
-            console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ajaxLoginUser > passport.authenticate > NO USER <<<<<<<<<<<<')
+            console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> doLoginCredentials > passport.authenticate > NO USER <<<<<<<<<<<<')
 
             sendJSONresponse(res, 201, { 'response': 'error' })
 
           } else {
 
-            console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ajaxLoginUser > passport.authenticate > YES USER <<<<<<<<<<<<')
+            console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> doLoginCredentials > passport.authenticate > YES USER <<<<<<<<<<<<')
 
-            user.generateJWT(function (err, token) {
+            req.logIn(user, function (err) {
 
-              if (err) {
-                console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ajaxLoginUser > generateJWT > err: ', err)
+              if (err) { 
+                console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> doLoginCredentials > req.logIn > err <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
                 return next(err)
               }
 
-              console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ajaxLoginUser > generateJWT > token: ', token)
-              // res.set('X-CSRF-Token', csrf )
-              // res.set('authorization', 'Bearer ' + token)
-              // res.cookie('jwt', jwt)
-              sendJSONresponse(res, 200, { 'response': 'success', 'token': token, 'redirect': 'http://127.0.0.1:3000/api/loginuser' })
+              user.previouslogin = user.lastlogin
+              user.lastlogin = new Date()
+
+              user.save(function (err, success) {
+
+                if (err) {
+                  return next(err)
+                }
+
+                console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> doLoginCredentials > req.logIn > user.save <<<<<<<<<<: ', success)
+
+                user.generateJWT(function (err, token) {
+
+                  if (err) {
+                    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> doLoginCredentials > generateJWT > err: ', err)
+                    return next(err)
+                  }
+
+                  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> doLoginCredentials > generateJWT > token: ', token)
+                  // res.set('X-CSRF-Token', csrf )
+                  // res.set('authorization', 'Bearer ' + token)
+                  // res.cookie('jwt', jwt)
+                  sendJSONresponse(res, 200, { 'response': 'success', 'token': token, 'redirect': 'http://127.0.0.1:3000/loginuser' })
+                })
+
+              })
             })
           }
         })(req, res)
-      })
+      // })
     } else {
       sendJSONresponse(res, 201, { 'response': 'error', 'validatedData': validatedResponse })
     }

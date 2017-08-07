@@ -36,9 +36,10 @@ module.exports.jwtAuthAPI = function (req, res, next) {
 module.exports.ensureAuthenticated = function (req, res, next) {
 
   if (req.isAuthenticated()) {
+    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>> ensureAuthenticated YES! <<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
     return next()
   }
-
+  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>> ensureAuthenticated NO! <<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
   res.redirect('/loginorsignup')
 }
 

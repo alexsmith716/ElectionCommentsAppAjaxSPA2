@@ -22,12 +22,14 @@ router.use(function (req, res, next) {
 
 router.get('/loginview/init', apiControllers.ajaxLoginViewInit)
 router.get('/indexview/init', apiControllers.ajaxIndexViewInit)
+router.get('/userhomeview/init', apiControllers.ajaxUserHomeViewInit)
+router.get('/resourcesview/init', apiControllers.ajaxResourcesViewInit)
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-router.post('/doverifylogincredentials', csrfProtection, apiControllers.doVerifyLoginCredentials)
-
-router.post('/loginuser', csrfProtection, auth.jwtAuthAPI, apiControllers.doLoginUser)
+router.post('/logincredentials', csrfProtection, apiControllers.doLoginCredentials)
+// router.get('/loginuser', csrfProtection, auth.jwtAuthAPI, apiControllers.doLoginUser)
+router.get('/loginuser', apiControllers.doLoginUser)
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

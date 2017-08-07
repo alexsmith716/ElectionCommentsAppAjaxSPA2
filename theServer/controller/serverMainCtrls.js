@@ -262,18 +262,24 @@ module.exports.doLoginUser = function (req, res) {
 
   request(requestOptions, function (err, response) {
 
-    req.session.renderableErr ? renderableErr = req.session.renderableErr : null
+    //req.session.renderableErr ? renderableErr = req.session.renderableErr : null
 
-    res.render('userHome', { err: renderableErr }, function (err, html) {
+    if (response.statusCode === 200) {
 
-      if (err) {
-        return next(err)
-      }
+      res.render('userHome', { err: renderableErr }, function (err, html) {
 
-      req.session.renderableErr ? req.session.renderableErr = null : null
-      res.send(html)
+        if (err) {
+          return next(err)
+        }
 
-    })
+        //req.session.renderableErr ? req.session.renderableErr = null : null
+        res.send(html)
+
+      })
+
+    } else{
+      // create custom error
+    }
   })
 }
 
@@ -370,7 +376,7 @@ module.exports.getResouces = function (req, res, next) {
     header: 'Resouces!',
     content: 'ThisGreatApp! is all about people sharing their favorite novelties across America.\n\nAut tenetur sit quam aliquid quia dolorum voluptate. Numquam itaque et hic reiciendis. Et eligendi quidem officia maiores. Molestiae ex sed vel architecto nostrum. Debitis culpa omnis perspiciatis vel eum. Vitae doloremque dolor enim aut minus.\n\nPossimus quaerat enim voluptatibus provident. Unde commodi ipsum voluptas ut velit. Explicabo voluptas at alias voluptas commodi. Illum et nihil ut nihil et. Voluptas iusto sed facere maiores.'
     }
-  res.render('basicView', locals, function (err, html) {
+  res.render('resources', locals, function (err, html) {
     if (err) {
       return next(err)
     }

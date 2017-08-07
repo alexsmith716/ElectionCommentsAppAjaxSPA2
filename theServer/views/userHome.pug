@@ -1,15 +1,17 @@
+
 extends layout
 
 block metas
 
 block title
   title User Homepage
-  
+
 block links
 
 block headScripts
 
 block bodyScripts
+  script(src='/js/views/userHome.js')
   - if ( err )
     script.
       $('#modalAlert .modal-title').html( '!{err.title}' )
@@ -17,8 +19,6 @@ block bodyScripts
       $('#modalAlert #errScrollbox').html( '!{err.message}' )
       $('#modalAlert .alertDanger').addClass('show').removeClass('hide')
       $('#modalAlert').modal({keyboard: false,backdrop: 'static'})
-
-
 
 block content
 
@@ -28,62 +28,72 @@ block content
     .row
       .col-lg-12
         h1.page-header
-          | Welcome back!
-          // <small></small>
+          | User Home
+          // small Subheading
         |                 
         ol.breadcrumb
           li
-            a(href='#') Home
+            a(href='index.html') Home
           |                     
-          li.active Log In
+          li.active User Home
 
-    // Log In form
     .row
-      .col-xs-12.col-sm-3.col-md-3.col-lg-3
+      // Sidebar Column
+      .col-md-3
 
         div(align="center")
-          <!-- img(src="/images/someUser.jpg") -->
+          img(src="/images/someUser.png")
+
         br
 
-      .col-xs-12.col-sm-7.col-md-7.col-lg-7
+        .list-group
+          a.list-group-item(href='index.html') Election App 2017!
+          |                     
+          a.list-group-item(href="/userprofile") Account Settings
+          |                     
+          a.list-group-item(href="/resources") Resources
+          |                     
+          a.list-group-item(href="/comments") Latest Comments
+          |                     
+          a.list-group-item(href="/comments") My Comments
+          |                     
+          a.list-group-item(href="/comments") Most Commented
+          |                     
+          a.list-group-item(href="") Most Recommended
+          |                     
+          a.list-group-item(href='contact.html') Members Only
 
-        div(align="center")
+      // Content Column
+      .col-md-9
+        h2 Welcome, User!
+        |                 
+        p
+          | Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta, et temporibus, facere perferendis veniam beatae non debitis, numquam blanditiis necessitatibus vel mollitia dolorum laudantium, voluptate dolores iure maxime ducimus fugit.
+
+    .modal.fade(id='modalAlert', tabindex='-1')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type="button" data-dismiss="modal") &times;
+            h4.modal-title
+
+          .modal-body
+
+            .alertSuccess.alert.alert-success.hide(role="alert", style="margin-top: 10px; margin-bottom: 22px;")
+            .alertWarning.alert.alert-warning.hide(role="alert", style="margin-top: 10px; margin-bottom: 22px;")
+            .alertDanger.alert.alert-danger.hide(role="alert", style="margin-top: 10px; margin-bottom: 22px;")
+
+            div(id="errScrollbox")
+
+            button(class="btn btn-default btn-md", data-dismiss="modal", style="margin-top: 6px;") OK
+
+          .modal-footer
 
 
-          div
-            a.btn.btn-primary.btn-md(href="/userprofile") Account Settings
-            br
-            br
-            a.btn.btn-primary.btn-md(href="/resources") Resources
-            br
-            br
-            a.btn.btn-primary.btn-md(href="/comments") Latest Comments
-            br
-            br
-            a.btn.btn-primary.btn-md(href="") My Comments
-            br
-            br
-            a.btn.btn-primary.btn-md(href="") Most Commented
-            br
-            br
-            a.btn.btn-primary.btn-md(href="") Most Recommended
+    .modal-backdrop.fade.in(style="display: none;")
+       img(src="/images/ajax-loader.gif" style="position: fixed; top: 45%; left: 49%;")
 
+    hr
 
-      .modal.fade(id='modalAlert', tabindex='-1')
-        .modal-dialog
-          .modal-content
-            .modal-header
-              button.close(type="button" data-dismiss="modal") &times;
-              h4.modal-title
-
-            .modal-body
-
-              .alertSuccess.alert.alert-success.hide(role="alert", style="margin-top: 10px; margin-bottom: 22px;")
-              .alertWarning.alert.alert-warning.hide(role="alert", style="margin-top: 10px; margin-bottom: 22px;")
-              .alertDanger.alert.alert-danger.hide(role="alert", style="margin-top: 10px; margin-bottom: 22px;")
-
-              div(id="errScrollbox")
-
-              button(class="btn btn-default btn-md", data-dismiss="modal", style="margin-top: 6px;") OK
-
-            .modal-footer
+    // Footer
+    include includes/footer/footer.pug

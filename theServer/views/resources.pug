@@ -4,11 +4,21 @@ extends layout
 block metas
 
 block title
-  title FAQ
+  title Resources
+
+block links
 
 block headScripts
 
 block bodyScripts
+  script(src='/js/views/resources.js')
+  - if ( err )
+    script.
+      $('#modalAlert .modal-title').html( '!{err.title}' )
+      $('#modalAlert .alertDanger').html( '!{err.alert}' )
+      $('#modalAlert #errScrollbox').html( '!{err.message}' )
+      $('#modalAlert .alertDanger').addClass('show').removeClass('hide')
+      $('#modalAlert').modal({keyboard: false,backdrop: 'static'})
 
 block content
 
@@ -18,14 +28,14 @@ block content
     .row
       .col-lg-12
         h1.page-header
-          | FAQ
+          | Resources
           // small Subheading
         |                 
         ol.breadcrumb
           li
             a(href='index.html') Home
           |                     
-          li.active FAQ
+          li.active Resources
     // /.row
     // Content Row
     .row
