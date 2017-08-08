@@ -62,6 +62,7 @@ var helper = {
         $('#forgotPasswordForm .loginerror').addClass('show').html('Please enter email')
         return false
       }
+
       if (!isEmailValid) {
         $('#forgotPassword').addClass('has-error')
         $('#forgotPasswordForm .loginerror').addClass('show').html('Please enter your valid email')
@@ -75,7 +76,7 @@ var helper = {
       }
 
       data['_csrf'] = $('meta[name="csrf-token"]').attr('content')
-      
+
       $.ajax({
         rejectUnauthorized: false,
         url: serviceUrl,
@@ -133,13 +134,13 @@ var helper = {
       var email = $('#login-email input[name=email]').val()
       var password = $('#login-password input[name=password]').val()
       var serviceUrl = $(this).attr('action')
-      
+
       if (email === '' || password === '') {
         hideLoading()
         return false
 
       } else {
-        
+
         data = {
           email: email,
           password: password
@@ -163,14 +164,7 @@ var helper = {
 
               window.localStorage.setItem('token', data.token)
               console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginForm > SUCCESS > SUCCESS: ', data)
-              // location.href = data.redirect
-              // helper.loginRedirect(data.redirect)
-              // $('#main').html($(data).find('#main *'))
-              // var $title = $('<h1>').text(data.foo[0].foo-title);
-              // var $description = $('<p>').text(data.foo[0].foo-description);
-              // $('#foober').append($title).append($description)
-              // $('#response pre').html( JSON.stringify( data ) )
-              window.location.replace('http://127.0.0.1:3000/about')
+              helper.loginRedirect(data.redirect)
 
             } else {
               console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginForm > SUCCESS > ERROR: ', data)
@@ -206,42 +200,41 @@ var helper = {
 
   loginRedirect: function (redirect) {
 
-    //       headers: {'Authorization': 'Bearer ' + window.localStorage.getItem('token')},
+    // headers: {'Authorization': 'Bearer ' + window.localStorage.getItem('token')},
     console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginRedirect > redirect: ', redirect)
     console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginRedirect > csrf: ', $('meta[name="csrf-token"]').attr('content'))
     console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginRedirect > token: ', window.localStorage.getItem('token'))
-    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginRedirect > XXX: ', JSON.stringify($(this).serializeArray()))
 
     showLoading()
 
     var data = {}
+
     data['_csrf'] = $('meta[name="csrf-token"]').attr('content')
-    data['Authorization'] = 'Bearer ' + window.localStorage.getItem('token')
-    /*var data = {
-      _csrf: $('meta[name="csrf-token"]').attr('content')
-    }*/
+    // data['Authorization'] = 'Bearer ' + window.localStorage.getItem('token')
 
     $.ajax({
       rejectUnauthorized: false,
-      url: 'http://127.0.0.1:3000/loginuser',
+      url: redirect,
       type: 'POST',
-      data: JSON.stringify($(this).serializeArray()),
+      data: JSON.stringify(data),
+      headers: {'Authorization': 'Bearer ' + window.localStorage.getItem('token')},
       dataType: 'json',
       contentType: 'application/json; charset=utf-8',
       accepts: 'application/json',
 
       success: function (data, status, xhr) {
+
         hideLoading()
 
         if (data.response === 'success') {
           console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginRedirect > SUCCESS > SUCCESS > data: ', data)
-          //location.href = data.redirect
-          window.location.replace(data.redirect)
+          // location.href = data.redirect
+          // window.location.replace(data.redirect)
 
         } else {
           console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginRedirect > SUCCESS > ERROR')
         }
-        
+
       },
       error: function (xhr, status, error) {
         hideLoading()

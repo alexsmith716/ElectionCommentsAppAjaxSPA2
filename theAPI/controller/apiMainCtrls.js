@@ -809,7 +809,6 @@ module.exports.doLoginCredentialsXX = function (req, res, next) {
   })
 }
 
-
 module.exports.doLoginCredentials = function (req, res, next) {
 
   console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> doLoginCredentials <<<<<<<<<<<<<<<<<<<: ', req.body)
@@ -835,72 +834,43 @@ module.exports.doLoginCredentials = function (req, res, next) {
 
     if (!validationErrors) {
 
-      // req.session.regenerate(function (err) {
+      passport.authenticate('local', function (err, user, info) {
 
-        // if (err) {
-          // return next(err)
-        // }
+        if (err) {
+          return next(err)
+        }
 
-        passport.authenticate('local', function (err, user, info) {
+        if (!user) {
 
-          if (err) {
-            return next(err)
-          }
+          console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> doLoginCredentials > passport.authenticate > NO USER <<<<<<<<<<<<')
 
-          if (!user) {
+          sendJSONresponse(res, 201, { 'response': 'error' })
 
-            console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> doLoginCredentials > passport.authenticate > NO USER <<<<<<<<<<<<')
+        } else {
 
-            sendJSONresponse(res, 201, { 'response': 'error' })
+          console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> doLoginCredentials > passport.authenticate > YES USER <<<<<<<<<<<<')
 
-          } else {
+          user.generateJWT(function (err, token) {
 
-            console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> doLoginCredentials > passport.authenticate > YES USER <<<<<<<<<<<<')
+            if (err) {
+              console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> doLoginCredentials > generateJWT > err: ', err)
+              return next(err)
+            }
 
-            req.logIn(user, function (err) {
+            // user.previouslogin = user.lastlogin
+            // user.lastlogin = new Date()
 
-              if (err) { 
-                console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> doLoginCredentials > req.logIn > err <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
-                return next(err)
-              }
+            console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> doLoginCredentials > generateJWT > token: ', token)
+            sendJSONresponse(res, 200, { 'response': 'success', 'token': token, 'redirect': 'http://127.0.0.1:3000/loginuser' })
 
-              user.previouslogin = user.lastlogin
-              user.lastlogin = new Date()
-
-              user.save(function (err, success) {
-
-                if (err) {
-                  return next(err)
-                }
-
-                console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> doLoginCredentials > req.logIn > user.save <<<<<<<<<<: ', success)
-
-                user.generateJWT(function (err, token) {
-
-                  if (err) {
-                    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> doLoginCredentials > generateJWT > err: ', err)
-                    return next(err)
-                  }
-
-                  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> doLoginCredentials > generateJWT > token: ', token)
-                  // res.set('X-CSRF-Token', csrf )
-                  // res.set('authorization', 'Bearer ' + token)
-                  // res.cookie('jwt', jwt)
-                  sendJSONresponse(res, 200, { 'response': 'success', 'token': token, 'redirect': 'http://127.0.0.1:3000/loginuser' })
-                })
-
-              })
-            })
-          }
-        })(req, res)
-      // })
+          })
+        }
+      })(req, res)
     } else {
       sendJSONresponse(res, 201, { 'response': 'error', 'validatedData': validatedResponse })
     }
   })
 }
-
-
 
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
