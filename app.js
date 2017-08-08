@@ -44,7 +44,7 @@ var accessLogStream = rfs('access.log', {
 })
 
 // app.use(morgan('dev'))
-app.use(morgan('combined', {stream: accessLogStream}))
+// app.use(morgan('combined', {stream: accessLogStream}))
 
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */
@@ -122,9 +122,9 @@ app.use(function (req, res, next) {
   // console.log('REQ.stale ++: ', req.stale)
   // console.log('REQ.protocol ++: ', req.protocol)
   console.log('REQ.method ++: ', req.method)
-  console.log('REQ.route ++: ', req.route)
-  // console.log('REQ.url ++: ', req.url)
-  // console.log('REQ.originalUrl ++: ', req.originalUrl)
+  // console.log('REQ.route ++: ', req.route)
+  console.log('REQ.url ++: ', req.url)
+  console.log('REQ.originalUrl ++: ', req.originalUrl)
   // console.log('REQ.path ++: ', req.path)
   // console.log('REQ.headers ++: ', req.headers)
   // console.log('REQ.headers.referer ++: ', req.headers['referer'])
