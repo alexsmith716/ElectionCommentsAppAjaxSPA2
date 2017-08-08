@@ -245,12 +245,17 @@ module.exports.getSignup = function (req, res, next) {
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */
 
+var sendJSONresponse = function (res, status, content) {
+  res.status(status)
+  res.json(content)
+}
+
 module.exports.doLoginUser = function (req, res) {
   console.log('>>>>>>>>>>>>>>>> server > doLoginUser <<<<<<<<<<<<<<<<<')
 
   var renderableErr
   var requestOptions
-  var path = '/api/loginUser'
+  var path = '/api/loginuser'
   //var path = '/api/loginUser/' + res.locals.currentUser.id
 
   requestOptions = {
@@ -262,7 +267,7 @@ module.exports.doLoginUser = function (req, res) {
 
   request(requestOptions, function (err, response) {
 
-    //req.session.renderableErr ? renderableErr = req.session.renderableErr : null
+    req.session.renderableErr ? renderableErr = req.session.renderableErr : null
 
     if (response.statusCode === 200) {
 
@@ -273,7 +278,8 @@ module.exports.doLoginUser = function (req, res) {
         }
 
         //req.session.renderableErr ? req.session.renderableErr = null : null
-        res.send(html)
+        //res.send(html)
+        sendJSONresponse(res, 200, { 'response': 'success', 'view': html})
 
       })
 
@@ -288,13 +294,13 @@ module.exports.doLoginUser = function (req, res) {
 
 module.exports.getUserProfile = function (req, res, next) {
   var requestOptions, path
-  path = '/api/userprofile/' + res.locals.currentUser.id
+  //path = '/api/userprofile/' + res.locals.currentUser.id
+  path = '/api/userprofile/' + '59470fbe58ee5103bac5f9bd'
 
   requestOptions = {
     rejectUnauthorized: false,
     url : apiOptions.server + path,
     method : 'GET',
-    auth : {'username': res.locals.currentUser.email, 'password': res.locals.currentUser.datecreated.toISOString()},
     json : {}
   }
   // res.locals.currentUser.email
@@ -307,7 +313,7 @@ module.exports.getUserProfile = function (req, res, next) {
 
     } else {
 
-      res.locals.currentUser.stateFull = stateNamer(body.state)
+      //res.locals.currentUser.stateFull = stateNamer(body.state)
 
       res.render('userProfile', {
         csrfToken: req.csrfToken(),

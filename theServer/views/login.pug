@@ -1,20 +1,15 @@
 
 extends layout
 
-
 block metas
   meta(name="csrf-token", content= `${csrfToken}`)
-
 
 block title
   title Log In
 
-
 block links
 
-
 block headScripts
-
 
 block bodyScripts
   script(src='/js/views/loginHelpers.js')
@@ -26,7 +21,6 @@ block bodyScripts
       $('#modalAlert #errScrollbox').html( '!{err.message}' )
       $('#modalAlert .alertDanger').addClass('show').removeClass('hide')
       $('#modalAlert').modal({keyboard: false,backdrop: 'static'})
-
 
 block content
 

@@ -732,7 +732,7 @@ module.exports.doLoginUser = function (req, res) {
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 
-module.exports.doLoginCredentialsXX = function (req, res, next) {
+module.exports.doLoginCredentialsXXX = function (req, res, next) {
 
   req.body.template = {email: 'required', password: 'required', expectedResponse: 'true'}
 
@@ -861,7 +861,7 @@ module.exports.doLoginCredentials = function (req, res, next) {
             // user.lastlogin = new Date()
 
             console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> doLoginCredentials > generateJWT > token: ', token)
-            sendJSONresponse(res, 200, { 'response': 'success', 'token': token, 'redirect': 'http://127.0.0.1:3000/loginuser' })
+            sendJSONresponse(res, 200, { 'response': 'success', 'token': token, 'redirect': 'http://127.0.0.1:3000/userhome' })
 
           })
         }

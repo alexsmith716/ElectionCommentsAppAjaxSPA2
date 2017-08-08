@@ -42,13 +42,13 @@ router.get('/notifyerror', serverControllers.getNotifyError)
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-//router.post('/loginuser', csrfProtection, auth.jwtAuthAPI, serverControllers.doLoginUser)
-router.get('/loginuser', serverControllers.doLoginUser)
+//router.post('/userhome', csrfProtection, auth.jwtAuthAPI, serverControllers.doLoginUser)
+router.post('/userhome', serverControllers.doLoginUser)
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 router.get('/membersonly', auth.ensureAuthenticated, serverControllers.getMembersOnly)
-router.get('/userprofile', csrfProtection, auth.ensureAuthenticated, serverControllers.getUserProfile)
+router.get('/accountsettings', csrfProtection, serverControllers.getUserProfile)
 router.get('/logout', auth.ensureAuthenticated, serverControllers.getLogout)
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

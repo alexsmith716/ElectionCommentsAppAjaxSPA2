@@ -134,10 +134,18 @@ userSchema.methods.checkPassword = function (password, cb) {
 
 userSchema.methods.generateJWT = function (cb) {
 
-  var newDate = new Date()
-  newDate.setDate(newDate.getDate() + 1)
+  var expireDate = new Date()
+  expireDate.setDate(expireDate.getDate() + 1)
 
-  ejwt.sign( { _id: this._id, datecreated: this.datecreated, exp: parseInt(newDate.getTime() / 1000) }, process.env.JWT_SECRET, function (err, token) {
+  ejwt.sign({ 
+    _id: this._id,
+    email: this.email,
+    displayname: this.displayname,
+    firstname: this.firstname,
+    lastname: this.lastname,
+    datecreated: this.datecreated,
+    exp: parseInt(expireDate.getTime() / 1000),
+    }, process.env.JWT_SECRET, function (err, token) {
 
     if (err) {
       console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> userSchema > generateJWT > err: ', err)

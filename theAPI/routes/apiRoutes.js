@@ -51,7 +51,7 @@ router.put('/newuserdatapathchange', csrfProtection, auth.ensureAuthenticated, a
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-router.get('/userprofile/:userid', csrfProtection, auth.basicAuthAPI, apiControllers.getUserProfileResponse)
+router.get('/userprofile/:userid', csrfProtection, apiControllers.getUserProfileResponse)
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

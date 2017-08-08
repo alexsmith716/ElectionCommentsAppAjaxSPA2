@@ -33,6 +33,9 @@ var helper = {
       })
     })
 
+
+
+
     $('#forgotPasswordFormModal').on('hidden.bs.modal', function () {
       $("#forgotPasswordForm").get(0).reset()
       $('#forgotPassword').removeAttr('disabled')
@@ -116,6 +119,10 @@ var helper = {
         }
       })
     })
+
+
+
+
 
     $('#loginForm').on('submit', function (e) {
 
