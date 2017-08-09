@@ -15,17 +15,19 @@ var fs = require('fs')
 var morgan = require('morgan')
 var rfs = require('rotating-file-stream')
 var passport = require('passport')
-var session = require('express-session')
-var MongoStore = require('connect-mongo')(session)
 var createError = require('http-errors')
-require('./theAPI/model/dbConnector')
 var sanitize = require('./shared/sanitizeInput')
 var onFinished = require('on-finished')
-var setUpAuthentication = require('./theAPI/model/authentication')
-var serverRoutes = require('./theServer/routes/serverRoutes')
-var apiRoutes = require('./theAPI/routes/apiRoutes')
 var renderableCustomErrorObject = require('./shared/renderableCustomErrorObject')
 var url = require('url')
+
+require('./theAPI/model/dbConnector')
+// require('./theAPI/passport/passport')
+var setUpAuthentication = require('./theAPI/passport/passport')
+
+var serverRoutes = require('./theServer/routes/serverRoutes')
+var apiRoutes = require('./theAPI/routes/apiRoutes')
+
 var app = express()
 
 app.use(helmet())
@@ -80,34 +82,11 @@ app.use(cookieParser())
 
 // var cookieExpireDate = new Date( Date.now() + 14 * 24 * 60 * 60 )
 // 1 hour(s)
-var sessionExpireDate = 6 * 60 * 60 * 1000
+// var sessionExpireDate = 6 * 60 * 60 * 1000
 // 1 minute
 // var sessionExpireDate = 1 * 60 * 1000
 // 10 minutes
 // var sessionExpireDate = 10 * 60 * 1000
-
-app.use(session({
-  store: new MongoStore({
-    url: 'mongodb://localhost/pec2016s',
-    autoRemove: 'native'
-  }),
-  name: 'id',
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  rolling: true,
-  saveUninitialized: false,
-  cookie: {
-    secure: true,
-    httpOnly: true,
-    maxAge: sessionExpireDate
-  }
-}))
-
-/* +++++++++++++++++++++++++++++++++++++++++++++++++ */
-/* +++++++++++++++++++++++++++++++++++++++++++++++++ */
-
-app.use(passport.initialize())
-app.use(passport.session())
 
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */
@@ -131,8 +110,6 @@ app.use(function (req, res, next) {
   // console.log('REQ.headers.user-agent ++: ', req.headers['user-agent'])
   // console.log('REQ.query ++: ', req.query)
   // console.log('REQ.query.token ++: ', req.query.token)
-  // console.log('REQ.session ++: ', req.session)
-  // console.log('REQ.sessionID ++: ', req.sessionID)
   // console.log('REQ.user ++: ', req.user)
   // req.user ? console.log('REQ.user._id: ', req.user._id) : null
   // console.log('REQ.body ++: ', req.body)
@@ -161,6 +138,7 @@ app.use(function (req, res, next) {
   res.locals.reqUrl = req.originalUrl
 
   var expr = /\/api/
+  /*
   if ( !expr.test(req.originalUrl) ) {
     req.session.currentRoute ? req.session.referingRoute = req.session.currentRoute : null
     req.session.currentRoute = req.originalUrl
@@ -170,7 +148,7 @@ app.use(function (req, res, next) {
     req.session.paginateFrom = res.locals.sortDocsFrom;
     req.session.lastPageVisited = '/indexView';
   }
-
+  */
   next()
 })
 
@@ -207,12 +185,12 @@ app.use(function (req, res, next) {
   next()
 })
 
-//app.use(function (req, res, next) {
-  //res.header('Access-Control-Allow-Origin', '*')
-  //res.header('Access-Control-Allow-Methods',)
-  //res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
-  //next()
-//})
+// app.use(function (req, res, next) {
+  // res.header('Access-Control-Allow-Origin', '*')
+  // res.header('Access-Control-Allow-Methods',)
+  // res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+  // next()
+// })
 
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */
@@ -260,13 +238,13 @@ if (app.get('env') === 'development') {
       referer = url.parse(req.headers['referer']).pathname
     }
 
-    req.session.renderableErr = renderableCustomErrorObject( err )
+    // req.session.renderableErr = renderableCustomErrorObject( err )
 
     console.log('############################# APP UNCAUGHT ERR HANDLER DEVELOPMENT > req.session.renderableErr ############################: ')
 
     if (req.xhr) {
       console.log('############################# APP UNCAUGHT ERR HANDLER DEVELOPMENT > YES XHR ############################')
-      res.json({'response': 'error', 'type': 'error', 'err': req.session.renderableErr})
+      // res.json({'response': 'error', 'type': 'error', 'err': req.session.renderableErr})
 
     } else {
 

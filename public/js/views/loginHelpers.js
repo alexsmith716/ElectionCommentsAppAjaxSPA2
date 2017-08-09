@@ -33,9 +33,6 @@ var helper = {
       })
     })
 
-
-
-
     $('#forgotPasswordFormModal').on('hidden.bs.modal', function () {
       $("#forgotPasswordForm").get(0).reset()
       $('#forgotPassword').removeAttr('disabled')
@@ -119,10 +116,6 @@ var helper = {
         }
       })
     })
-
-
-
-
 
     $('#loginForm').on('submit', function (e) {
 
@@ -216,7 +209,7 @@ var helper = {
 
     var data = {}
 
-    data['_csrf'] = $('meta[name="csrf-token"]').attr('content')
+    // data['_csrf'] = $('meta[name="csrf-token"]').attr('content')
     // data['Authorization'] = 'Bearer ' + window.localStorage.getItem('token')
 
     $.ajax({
