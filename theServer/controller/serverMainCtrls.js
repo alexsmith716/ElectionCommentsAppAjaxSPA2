@@ -246,7 +246,7 @@ var sendJSONresponse = function (res, status, content) {
 }
 
 module.exports.doLoginUserHome = function (req, res) {
-  console.log('>>>>>>>>>>>>>>>> server > doLoginUserHome > req.headers <<<<<<<<<<<<<<<<<', req.headers['authorization'])
+  console.log('>>>>>>>>>>>>>>>> server > doLoginUserHome <<<<<<<<<<<<<<<<<')
 
 /*
 req.headers:  { host: '127.0.0.1:3000',
@@ -271,9 +271,9 @@ req.headers:  { host: '127.0.0.1:3000',
 
   requestOptions = {
     rejectUnauthorized: false,
-    headerAuth: req.headers['authorization'],
     url : apiOptions.server + path,
     method : 'POST',
+    headers: req.headers,
     json : {}
   }
 
