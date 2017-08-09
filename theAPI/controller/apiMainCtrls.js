@@ -452,7 +452,7 @@ module.exports.ajaxNewUserDataItem = function (req, res, next) {
 
   // ==============================================================================================
 
-  if(req.body.type === 'email' && req.session.userValidatedEmail.isValidated){
+  if(req.body.type === 'email'){
 
     console.log('####### > API > ajaxNewUserDataItem 4 ++++++++++++++++++++')
 
@@ -491,7 +491,6 @@ module.exports.ajaxNewUserDataItem = function (req, res, next) {
 
         // No errors, save user's new data change in Db
         // return response success 201
-        req.session.userValidatedEmail.isValidated = false
         console.log('####### > API > ajaxNewUserDataItem 5 > serverSideValidation > validatedResponse5 > req.body: ', req.body)
         console.log('####### > API > ajaxNewUserDataItem 5 > serverSideValidation > validatedResponse5: ', validatedResponse)
 
@@ -536,7 +535,7 @@ module.exports.ajaxNewUserDataItem = function (req, res, next) {
 
   // ==============================================================================================
 
-  if (req.body.type === 'password' && req.session.userValidatedEmail.isValidated && req.session.userValidatedPassword.isValidated) {
+  if (req.body.type === 'password') {
 
     console.log('####### > API > ajaxNewUserDataItem 8 ++++++++++++++++++++')
 
@@ -547,9 +546,6 @@ module.exports.ajaxNewUserDataItem = function (req, res, next) {
       var validationErrors = false
 
       if (validatedResponse.status === 'err') {
-
-        req.session.userValidatedEmail.isValidated = false
-        req.session.userValidatedPassword.isValidated = false
 
         console.log('####### > API > ajaxNewUserDataItem 10 > serverSideValidation > validatedResponse2: ', validatedResponse)
         return next(validatedResponse.message)
@@ -575,8 +571,6 @@ module.exports.ajaxNewUserDataItem = function (req, res, next) {
 
         // No errors, save user's new data in Db
 
-        req.session.userValidatedEmail.isValidated = false
-        req.session.userValidatedPassword.isValidated = false
         console.log('####### > API > ajaxNewUserDataItem 14 > serverSideValidation > validatedResponse5: ', validatedResponse)
 
       } else {
@@ -611,11 +605,11 @@ module.exports.ajaxValidateNewUserDataService = function (req, res, next) {
 
     })
 
-  } else if (req.body.type === 'password' && req.session.userValidatedEmail.isValidated) {
+  } else if (req.body.type === 'password') {
 
     req.body.doUserValidatedPassword = true
     var nd = new Date()
-    var millis = nd.getTime() - req.session.userValidatedEmail.timeStamp
+    var millis = nd.getTime()
     var nds = new Date(millis)
     var foo = 'foo'
 
@@ -623,8 +617,6 @@ module.exports.ajaxValidateNewUserDataService = function (req, res, next) {
     if (nds.getMinutes() > 4){
     // if (nds.getMinutes() > 0) {
     
-      req.session.userValidatedEmail.isValidated = false
-
       var u = req.body.type.charAt(0).toUpperCase()+req.body.type.slice(1)
 
       sendJSONresponse(res, 201, { 'response': 'error', 'alertDanger': ' You\'re request to change the '+ u +' has timed out. Please try changing your '+ u +' again.' })
@@ -724,90 +716,31 @@ module.exports.ajaxForgotPassword = function (req, res, next) {
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 
-module.exports.doLoginUser = function (req, res) {
-  console.log('>>>>>>>>>>>>>>>> api > doLoginUser <<<<<<<<<<<<<<<<<')
+
+
+
+
+module.exports.doLoginUserHome = function (req, res) {
+
+
+  console.log('>>>>>>>>>>>>>>>> api > doLoginUserHome <<<<<<<<<<<<<<<<<')
+
+
   sendJSONresponse(res, 200, { 'response': 'success' })
+
+
+
 }
+
+
+
+
+
+
 
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 
-module.exports.doLoginCredentialsXXX = function (req, res, next) {
-
-  req.body.template = {email: 'required', password: 'required', expectedResponse: 'true'}
-
-  // var testerJOB = {email: 'aaa1@aa a.com', password: '  pppp   '}
-  // req.body.template = testerJOB
-
-  serverSideValidation(req, res, function (err, validatedResponse) {
-
-    if (err) {
-
-      console.log('>>>>>>>>>>>>>>>>>>>>>>> ajaxLoginUser > serverSideValidation <<<<<<<<<<<<<<<<<<< YES ERR: ', err)
-
-      return next(err)
-
-    } else {
-
-      var validationErrors = false
-
-      for (var prop in validatedResponse) {
-
-        if (validatedResponse[prop].error !== false && validatedResponse[prop].error !== 'match') {
-          validationErrors = true
-          break
-
-        }
-      }
-
-      if (!validationErrors) {
-
-        passport.authenticate('local', function (err, user, info) {
-
-          if (err) {
-            return next(err)
-          }
-
-          if (!user) {
-            sendJSONresponse(res, 201, { 'response': 'error' })
-            return
-
-          }
-
-          req.logIn(user, function (err) {
-
-            if (err) { 
-
-              return next(err)
-
-            } else {
-
-              user.previouslogin = user.lastlogin
-              user.lastlogin = new Date()
-
-              user.save(function (err, success) {
-                if (err) {
-                  return next(err)
-
-                } else {
-                  sendJSONresponse(res, 201, { 'response': 'success', 'redirect': 'https://localhost:3000/userhome' })
-
-                }
-              })
-            }
-
-          })
-
-        })(req, res)
-
-      } else {
-
-        sendJSONresponse(res, 201, { 'response': 'error', 'validatedData': validatedResponse })
-
-      }
-    }
-  })
-}
 
 module.exports.doLoginCredentials = function (req, res, next) {
 
@@ -834,16 +767,19 @@ module.exports.doLoginCredentials = function (req, res, next) {
 
     if (!validationErrors) {
 
+      console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> doLoginCredentials > serverSideValidation > !validationErrors!!!! <<<<<<<<<<<<')
+
       passport.authenticate('local', function (err, user, info) {
 
         if (err) {
+
+          console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> doLoginCredentials > passport.authenticate > ERROR <<<<<<<<<<<<')
           return next(err)
         }
 
         if (!user) {
 
           console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> doLoginCredentials > passport.authenticate > NO USER <<<<<<<<<<<<')
-
           sendJSONresponse(res, 201, { 'response': 'error' })
 
         } else {
@@ -853,7 +789,7 @@ module.exports.doLoginCredentials = function (req, res, next) {
           user.generateJWT(function (err, token) {
 
             if (err) {
-              console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> doLoginCredentials > generateJWT > err: ', err)
+              console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> doLoginCredentials > generateJWT > ERROR: ', err)
               return next(err)
             }
 
@@ -861,7 +797,7 @@ module.exports.doLoginCredentials = function (req, res, next) {
             // user.lastlogin = new Date()
 
             console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> doLoginCredentials > generateJWT > token: ', token)
-            sendJSONresponse(res, 200, { 'response': 'success', 'token': token, 'redirect': 'http://127.0.0.1:3000/userhome' })
+            sendJSONresponse(res, 200, { 'response': 'success', 'token': token, 'redirect': 'http://127.0.0.1:3000/loginuserhome' })
 
           })
         }
@@ -930,8 +866,6 @@ module.exports.ajaxSignUpUser = function (req, res, next) {
       newUser.city = req.body.city
       newUser.state = req.body.state
 
-      req.session.regenerate(function (err) {
-
         if (err) {
           return next(err)
         }
@@ -942,38 +876,32 @@ module.exports.ajaxSignUpUser = function (req, res, next) {
             return next(err)
           }
 
-          newUser.save(function (err) {
+          passport.authenticate('local', function (err, user, info) {
 
             if (err) {
               return next(err)
             }
 
-            passport.authenticate('local', function (err, user, info) {
+            if (!user) {
 
-              if (err) {
-                return next(err)
-              }
+              sendJSONresponse(res, 201, { 'response': 'error' })
 
-              if (!user) {
+            } else {
 
-                sendJSONresponse(res, 201, { 'response': 'error' })
+              req.logIn(user, function (err) {
 
-              } else {
+                if (err) { 
+                  return next(err)
+                }
 
-                req.logIn(user, function (err) {
+                sendJSONresponse(res, 201, { 'response': 'success', 'redirect': 'http://localhost:3000/userhome' })
 
-                  if (err) { 
-                    return next(err)
-                  }
+              })
+            }
+          })(req, res, next)
 
-                  sendJSONresponse(res, 201, { 'response': 'success', 'redirect': 'http://localhost:3000/userhome' })
-
-                })
-              }
-            })(req, res, next)
-          })
         })
-      })
+
     }else{
       sendJSONresponse(res, 201, { 'response': 'error', 'validatedData': validatedResponse })
     }

@@ -12,8 +12,13 @@ module.exports.jwtAuthAPI = function (req, res, next) {
 
   console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> jwtAuthAPI <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
 
+  /*
+  jwt.verify(token, process.env.JWT_SECRET, function(err, decoded) {
+    console.log(decoded.foo)
+  })
+  */
+  
   ejwt({ secret: process.env.JWT_SECRET, userProperty: 'payload' })(req, res, next)
-
 
   /*
   ejwt({ 
@@ -62,17 +67,15 @@ module.exports.ensureAuthenticatedNewUserDataItem = function (req, res, next) {
   var u =  req.body.type.charAt(0).toUpperCase()+req.body.type.slice(1)
   var nd = new Date()
 
-  if (req.body.type === 'email' && req.session.userValidatedEmail.isValidated) {
+  if (req.body.type === 'email') {
 
-    var dmillis = nd.getTime() - req.session.userValidatedEmail.timeStamp
+    var dmillis = nd.getTime()
     dmillis = new Date(dmillis)
     var foo = 'foo'
 
     // if (foo === 'foo') {
     if (dmillis.getMinutes() > 4) {
     // if (dmillis.getMinutes() > 0) {
-
-      req.session.userValidatedEmail.isValidated = false
 
       sendJSONresponse(res, 201, { 'response': 'error', 'alertDanger': ' You\'re request to change the '+ u +' has timed out. Please try changing your '+ u +' again.' })
 
@@ -82,17 +85,14 @@ module.exports.ensureAuthenticatedNewUserDataItem = function (req, res, next) {
 
     }
 
-  } else if (req.body.type === 'password' && req.session.userValidatedEmail.isValidated && req.session.userValidatedPassword.isValidated) {
+  } else if (req.body.type === 'password') {
 
-    var pmillis = nd.getTime() - req.session.userValidatedPassword.timeStamp
+    var pmillis = nd.getTime()
     pmillis = new Date(pmillis)
 
     // if (foo === 'foo') {
     if (pmillis.getMinutes() > 4) {
     // if (pmillis.getMinutes() > 0) {
-
-      req.session.userValidatedEmail.isValidated = false
-      req.session.userValidatedPassword.isValidated = false
 
       sendJSONresponse(res, 201, { 'response': 'error', 'alertDanger': ' You\'re request to change the '+ u +' has timed out. Please try changing your '+ u +' again.' })
 

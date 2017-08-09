@@ -42,15 +42,12 @@ module.exports.getLogout = function (req, res, next) {
   
   req.logout()
 
-  req.session.destroy(function (err) {
-
     if (err) {
       return next(err)
     }
 
     res.redirect('/')
 
-  })
 }
 
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */
@@ -214,18 +211,16 @@ module.exports.getAddNewComment = function(req, res) {
 module.exports.getLogin = function (req, res, next) {
 
   // var jsonString
-  // req.session.renderableErr ? jsonString = req.session.renderableErr : null
   var csurf =  req.csrfToken()
 
   console.log('>>>>>>>>>>>>>>>> XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX <<<<<<<<<<<< csurf: ', csurf)
 
-  res.render('login', { csrfToken: csurf, err: req.session.renderableErr }, function (err, html) {
+  res.render('login', { csrfToken: csurf }, function (err, html) {
 
     if (err) {
       return next(err)
     }
 
-    req.session.renderableErr ? req.session.renderableErr = null : null
     res.send(html)
   })
 }
@@ -250,34 +245,48 @@ var sendJSONresponse = function (res, status, content) {
   res.json(content)
 }
 
-module.exports.doLoginUser = function (req, res) {
-  console.log('>>>>>>>>>>>>>>>> server > doLoginUser <<<<<<<<<<<<<<<<<')
+module.exports.doLoginUserHome = function (req, res) {
+  console.log('>>>>>>>>>>>>>>>> server > doLoginUserHome > req.headers <<<<<<<<<<<<<<<<<', req.headers['authorization'])
 
-  var renderableErr
+/*
+req.headers:  { host: '127.0.0.1:3000',
+  connection: 'keep-alive',
+  'content-length': '2',
+  authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1OTQ3MGZiZTU4ZWU1MTAzYmFjNWY5YmQiLCJlbWFpbCI6ImFhYTg4QGFhYS5jb20iLCJkaXNwbGF5bmFtZSI6ImFhYTg4IiwiZmlyc3RuYW1lIjoiU2JnYmdmYmZnYmZnIiwibGFzdG5hbWUiOiJYdnZkZnZ2dmR2ZCIsImRhdGVjcmVhdGVkIjoiMjAxNy0wNi0xOFQyMzo0MTo1MC4yMTZaIiwiZXhwIjoxNTAyMzEzNzI3LCJpYXQiOjE1MDIyMjczMjd9.Gy9XEA4gIcQCYRMP-J5mg_iVUSfdzQby4taGViIFuIM',
+  origin: 'http://127.0.0.1:3000',
+  'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36',
+  'content-type': 'application/json; charset=UTF-8',
+  accept: 'undefined',
+  'x-requested-with': 'XMLHttpRequest',
+  dnt: '1',
+  referer: 'http://127.0.0.1:3000/login',
+  'accept-encoding': 'gzip, deflate, br',
+  'accept-language': 'en-US,en;q=0.8',
+  cookie: '_csrf=ZKHuwSqYZhJoer9fvKWLl4Em' }
+*/
+
   var requestOptions
-  var path = '/api/loginuser'
+  var path = '/api/loginuserhome'
   //var path = '/api/loginUser/' + res.locals.currentUser.id
 
   requestOptions = {
     rejectUnauthorized: false,
+    headerAuth: req.headers['authorization'],
     url : apiOptions.server + path,
-    method : 'GET',
+    method : 'POST',
     json : {}
   }
 
   request(requestOptions, function (err, response) {
 
-    req.session.renderableErr ? renderableErr = req.session.renderableErr : null
-
     if (response.statusCode === 200) {
 
-      res.render('userHome', { err: renderableErr }, function (err, html) {
+      res.render('userHome', function (err, html) {
 
         if (err) {
           return next(err)
         }
 
-        //req.session.renderableErr ? req.session.renderableErr = null : null
         //res.send(html)
         sendJSONresponse(res, 200, { 'response': 'success', 'view': html})
 
@@ -350,7 +359,7 @@ module.exports.getNotifyError = function (req, res, next) {
 
   console.log('>>>>>>>>>>>>>>>>>>>>> server > getNotifyError 1<<<<<<<<<<<<<<<<<<<<')
 
-  res.render('notifyError', { err: req.session.renderableErr }, function (err, html) {
+  res.render('notifyError', function (err, html) {
 
     if (err) {
       console.log('>>>>>>>>>>>>>>>>>>>>> server > getNotifyError 2<<<<<<<<<<<<<<<<<<<<: ')
@@ -358,7 +367,6 @@ module.exports.getNotifyError = function (req, res, next) {
     }
 
     console.log('>>>>>>>>>>>>>>>>>>>>> server > getNotifyError 3<<<<<<<<<<<<<<<<<<<<: ')
-    req.session.renderableErr ? req.session.renderableErr = null : null
     res.send(html)
   })
 
