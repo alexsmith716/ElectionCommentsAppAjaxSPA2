@@ -13,8 +13,8 @@ var csrfProtection = csrf({ cookie: true })
 router.use(function (req, res, next) {
   console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>> apiRoutes > router.use > req.method: ', req.method)
   console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>> apiRoutes > router.use > req.url: ', req.url)
-  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>> apiRoutes > router.use > req.headers: ', req.headers)
-  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>> apiRoutes > router.use > req.body: ', req.body)
+  //console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>> apiRoutes > router.use > req.headers: ', req.headers)
+  //console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>> apiRoutes > router.use > req.body: ', req.body)
   next()
 })
 
@@ -29,12 +29,7 @@ router.get('/resourcesview/init', apiControllers.ajaxResourcesViewInit)
 
 router.post('/logincredentials', csrfProtection, apiControllers.doLoginCredentials)
 // router.get('/loginuser', csrfProtection, auth.jwtAuthAPI, apiControllers.doLoginUser)
-
-
-
 router.post('/loginuserhome', auth.jwtAuthAPI, apiControllers.doLoginUserHome)
-
-
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

@@ -200,27 +200,16 @@ var helper = {
 
   loginRedirect: function (redirect) {
 
-    // headers: {'Authorization': 'Bearer ' + window.localStorage.getItem('token')},
     console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginRedirect > redirect: ', redirect)
-    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginRedirect > csrf: ', $('meta[name="csrf-token"]').attr('content'))
     console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginRedirect > token: ', window.localStorage.getItem('token'))
 
     showLoading()
 
-    var data = {}
-
-    // data['_csrf'] = $('meta[name="csrf-token"]').attr('content')
-    // data['Authorization'] = 'Bearer ' + window.localStorage.getItem('token')
-
     $.ajax({
       rejectUnauthorized: false,
       url: redirect,
-      type: 'POST',
-      data: JSON.stringify(data),
+      type: 'GET',
       headers: {'Authorization': 'Bearer ' + window.localStorage.getItem('token')},
-      dataType: 'json',
-      contentType: 'application/json; charset=utf-8',
-      accepts: 'application/json',
 
       success: function (data, status, xhr) {
 

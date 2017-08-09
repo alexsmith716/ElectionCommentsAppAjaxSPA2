@@ -1,26 +1,39 @@
 
-$(function() {
+var helper = {
 
-  $('nav .navbar-header .navbar-toggle').on('click', function(e) {
+  init: function () {
 
-    if ($('nav .navbar-collapse .dropdown .dropdown-toggle').attr('aria-expanded') === 'true') {
+    console.log('userAgent > isSafari: ', isSafari)
+    console.log('navigator.appVersion: ', webkitVersion)
+    console.log('interactiveFormValidationEnabled: ', interactiveFormValidationEnabled)
 
-      e.stopPropagation()
+    helper.initializeJqueryEvents()
+  },
 
-      $('nav .navbar-collapse .dropdown').addClass('open')
-      $('nav .navbar-collapse .dropdown .dropdown-toggle').attr('aria-expanded', 'true')
-      $('nav .navbar-collapse').collapse('toggle')
+  initializeJqueryEvents: function () {
 
-    } else {
+    $('nav .navbar-header .navbar-toggle').on('click', function(e) {
 
-      $('nav .navbar-collapse .dropdown').removeClass('open')
-      $('nav .navbar-collapse .dropdown .dropdown-toggle').attr('aria-expanded', 'false')
+      if ($('nav .navbar-collapse .dropdown .dropdown-toggle').attr('aria-expanded') === 'true') {
 
-    }
-  })
+        e.stopPropagation()
 
-  console.log('userAgent > isSafari: ', isSafari)
-  console.log('navigator.appVersion: ', webkitVersion)
-  console.log('interactiveFormValidationEnabled: ', interactiveFormValidationEnabled)
+        $('nav .navbar-collapse .dropdown').addClass('open')
+        $('nav .navbar-collapse .dropdown .dropdown-toggle').attr('aria-expanded', 'true')
+        $('nav .navbar-collapse').collapse('toggle')
 
+      } else {
+
+        $('nav .navbar-collapse .dropdown').removeClass('open')
+        $('nav .navbar-collapse .dropdown .dropdown-toggle').attr('aria-expanded', 'false')
+
+      }
+    })
+
+  },
+
+}
+
+$(function () {
+    helper.init()
 })
