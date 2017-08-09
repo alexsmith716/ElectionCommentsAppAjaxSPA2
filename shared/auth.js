@@ -8,9 +8,14 @@ var sendJSONresponse = function(res, status, content) {
   res.json(content)
 }
 
+// https://github.com/auth0/express-jwt
+// https://github.com/auth0/express-jwt
+// https://github.com/request/request
+// If the token is valid, req.user will be set with the JSON object decoded to be used by later middleware for authorization and access control
+
 module.exports.jwtAuthAPI = function (req, res, next) {
 
-  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> jwtAuthAPI <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
+  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> jwtAuthAPI HEADERS? <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
 
   /*
   jwt.verify(token, process.env.JWT_SECRET, function(err, decoded) {
