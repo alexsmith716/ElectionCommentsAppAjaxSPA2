@@ -9,36 +9,20 @@ var sendJSONresponse = function(res, status, content) {
 }
 
 // https://github.com/auth0/express-jwt
-// https://github.com/auth0/express-jwt
+// https://github.com/auth0/node-jsonwebtoken
 // https://github.com/request/request
 // If the token is valid, req.user will be set with the JSON object decoded to be used by later middleware for authorization and access control
 
 module.exports.jwtAuthAPI = function (req, res, next) {
 
-  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> jwtAuthAPI HEADERS? <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
+  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> auth > jwtAuthAPI  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
+
+  ejwt({ secret: process.env.JWT_SECRET, userProperty: 'payload' })(req, res, next)
 
   /*
   jwt.verify(token, process.env.JWT_SECRET, function(err, decoded) {
     console.log(decoded.foo)
   })
-  */
-  
-  ejwt({ secret: process.env.JWT_SECRET, userProperty: 'payload' })(req, res, next)
-
-  /*
-  ejwt({ 
-    secret: process.env.JWT_SECRET,
-    userProperty: 'payload',
-    credentialsRequired: true,
-    getToken: function fromHeaderOrQuerystring (req) {
-      if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
-        return req.headers.authorization.split(' ')[1]
-      } else if (req.query && req.query.token) {
-        return req.query.token
-      }
-      return null
-    }
-  })(req, res, next)
   */
 }
 

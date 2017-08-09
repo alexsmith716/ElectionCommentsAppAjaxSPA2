@@ -12,6 +12,7 @@ block headScripts
 
 block bodyScripts
   script(src='/js/views/userHome.js')
+  
   - if ( err )
     script.
       $('#modalAlert .modal-title').html( '!{err.title}' )

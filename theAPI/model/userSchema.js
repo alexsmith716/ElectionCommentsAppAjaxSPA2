@@ -136,14 +136,9 @@ userSchema.methods.generateJWT = function (cb) {
 
   var expireDate = new Date()
   expireDate.setDate(expireDate.getDate() + 1)
-
+  /*
   ejwt.sign({ 
     _id: this._id,
-    email: this.email,
-    displayname: this.displayname,
-    firstname: this.firstname,
-    lastname: this.lastname,
-    datecreated: this.datecreated,
     exp: parseInt(expireDate.getTime() / 1000),
     }, process.env.JWT_SECRET, function (err, token) {
 
@@ -155,6 +150,31 @@ userSchema.methods.generateJWT = function (cb) {
     console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> userSchema > generateJWT > token: ', token)
     cb(null, token)
   })
+  */
+
+  ejwt.sign({ 
+    _id: this._id,
+    email: this.email,
+    displayname: this.displayname,
+    firstname: this.firstname,
+    lastname: this.lastname,
+    city: this.city,
+    state: this.state,
+    datecreated: this.datecreated,
+    previouslogin: this.previouslogin,
+    lastlogin: this.lastlogin,
+    exp: parseInt(expireDate.getTime() / 1000),
+    }, process.env.JWT_SECRET, function (err, token) {
+
+    if (err) {
+      console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> userSchema > generateJWT > err: ', err)
+      return cb(err)
+    }
+
+    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> userSchema > generateJWT > token: ', token)
+    cb(null, token)
+  })
+
 }
 
 mongoose.model('User', userSchema)

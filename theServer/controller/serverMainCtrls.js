@@ -245,7 +245,7 @@ var sendJSONresponse = function (res, status, content) {
   res.json(content)
 }
 
-module.exports.doLoginUserHome = function (req, res) {
+module.exports.doLoginUserHome = function (req, res, next) {
   console.log('>>>>>>>>>>>>>>>> server > doLoginUserHome <<<<<<<<<<<<<<<<<')
 
 /*
@@ -295,6 +295,7 @@ req.headers:  { host: '127.0.0.1:3000',
     } else{
       // create custom error
     }
+
   })
 }
 

@@ -34,7 +34,7 @@ var validateMaxLengthUserInput = function (val,maxlen) {
 }
 
 module.exports.getIndexResponse = function (req, res) {
-  sendJSONresponse(res, 200), { 'response': 'success' }
+  sendJSONresponse(res, 200, { 'response': 'success' })
 }
 
 // holding off on updating comments for next project version +++++++++++++++++++++++++++++++
@@ -716,7 +716,7 @@ module.exports.ajaxForgotPassword = function (req, res, next) {
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 
-module.exports.doLoginUserHome = function (req, res) {
+module.exports.doLoginUserHome = function (req, res, next) {
 
   console.log('>>>>>>>>>>>>>>>> api > doLoginUserHome <<<<<<<<<<<<<<<<<')
 
@@ -753,8 +753,6 @@ module.exports.doLoginCredentials = function (req, res, next) {
 
     if (!validationErrors) {
 
-      console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> doLoginCredentials > serverSideValidation > !validationErrors!!!! <<<<<<<<<<<<')
-
       passport.authenticate('local', function (err, user, info) {
 
         if (err) {
@@ -779,11 +777,23 @@ module.exports.doLoginCredentials = function (req, res, next) {
               return next(err)
             }
 
-            // user.previouslogin = user.lastlogin
-            // user.lastlogin = new Date()
+            user.previouslogin = user.lastlogin
+            user.lastlogin = new Date()
 
-            console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> doLoginCredentials > generateJWT > token: ', token)
-            sendJSONresponse(res, 200, { 'response': 'success', 'token': token, 'redirect': 'http://127.0.0.1:3000/loginuserhome' })
+            user.save(function (err, location) {
+
+              if (err) {
+                return next(err)
+                
+              } else {
+
+                console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> doLoginCredentials > generateJWT > USER: ', user)
+                console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> doLoginCredentials > generateJWT > TOKEN: ', token)
+
+                sendJSONresponse(res, 200, { 'response': 'success', 'token': token, 'redirect': 'http://127.0.0.1:3000/loginuserhome' })
+
+              }
+            })
 
           })
         }
