@@ -235,6 +235,16 @@ module.exports.ajaxResourcesViewInit = function (req, res, next) {
   sendJSONresponse(res, 201, { 'response': 'success', 'message': 'sendJSONresponse - success'})
 }
 
+/* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+/* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+
+module.exports.getIndex = function (req, res, next) {
+
+  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>> api > getIndex <<<<<<<<<<<<<<<<<<<<<<<<<<<')
+
+  var indexViewData = {}
+  sendJSONresponse(res, 200, indexViewData)
+}
 
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
@@ -352,7 +362,6 @@ module.exports.ajaxEvaluateUserProfile = function (req, res, next) {
 
   }
 }
-
 
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
@@ -790,7 +799,8 @@ module.exports.doLoginCredentials = function (req, res, next) {
                 console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> doLoginCredentials > generateJWT > USER: ', user)
                 console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> doLoginCredentials > generateJWT > TOKEN: ', token)
 
-                sendJSONresponse(res, 200, { 'response': 'success', 'token': token, 'redirect': 'http://127.0.0.1:3000/loginuserhome' })
+                // sendJSONresponse(res, 200, { 'response': 'success', 'token': token, 'redirect': 'http://127.0.0.1:3000/loginuserhome' })
+                sendJSONresponse(res, 200, { 'response': 'success', 'token': token, 'redirect': 'http://127.0.0.1:3000/userhometemp' })
 
               }
             })

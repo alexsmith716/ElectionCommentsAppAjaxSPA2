@@ -209,7 +209,7 @@ var helper = {
       rejectUnauthorized: false,
       url: redirect,
       type: 'GET',
-      headers: {'Authorization': 'Bearer ' + window.localStorage.getItem('token')},
+      headers: {'authorization': 'Bearer ' + window.localStorage.getItem('token')},
 
       success: function (data, status, xhr) {
 
@@ -218,10 +218,10 @@ var helper = {
         if (data.response === 'success') {
           console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginRedirect > SUCCESS > SUCCESS > data: ', data)
           // location.href = data.redirect
-          // window.location.replace(data.redirect)
+          //window.location.replace(data.view)
 
         } else {
-          console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginRedirect > SUCCESS > ERROR')
+          console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> loginRedirect > SUCCESS > ERROR > data: ', data)
         }
 
       },
