@@ -8,7 +8,7 @@ var helmet = require('helmet')
 var http = require('http')
 var https = require('https')
 var path = require('path')
-// var favicon = require('serve-favicon')
+var favicon = require('serve-favicon')
 var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser')
 var fs = require('fs')
@@ -68,14 +68,11 @@ app.set('views', path.join(__dirname, 'theServer', 'views'))
 app.set('view engine', 'pug')
 
 // app.use(favicon(__dirname + '/public/images/favicon.ico'))
-app.use(express.static(path.join(__dirname, 'public')))
-
-/* +++++++++++++++++++++++++++++++++++++++++++++++++ */
-/* +++++++++++++++++++++++++++++++++++++++++++++++++ */
-
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
+
+app.use(express.static(path.join(__dirname, 'public')))
 
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */

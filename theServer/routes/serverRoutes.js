@@ -19,9 +19,11 @@ router.use(function (req, res, next) {
   next()
 })
 
+
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 router.get('/', serverControllers.getIndex)
+
 router.get('/loginorsignup', serverControllers.getLoginOrSignup)
 router.get('/dummypage', serverControllers.getDummyPage)
 router.get('/resources', serverControllers.getResouces)

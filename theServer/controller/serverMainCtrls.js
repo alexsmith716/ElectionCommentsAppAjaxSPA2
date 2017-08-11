@@ -16,6 +16,14 @@ var pug = require('pug')
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */
 
+var sendJSONresponse = function (res, status, content) {
+  res.status(status)
+  res.json(content)
+}
+
+/* +++++++++++++++++++++++++++++++++++++++++++++++++ */
+/* +++++++++++++++++++++++++++++++++++++++++++++++++ */
+
 var apiOptions = {
   server : 'http://127.0.0.1:3000'
   // server : 'http://localhost:3000'
@@ -31,22 +39,10 @@ if (process.env.NODE_ENV === 'production') {
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */
 
-var handleError = function (req, res, statusCode) {
-  // ++++++++++++++++++++++++++++++++++++++
-}
-
-/* +++++++++++++++++++++++++++++++++++++++++++++++++ */
-/* +++++++++++++++++++++++++++++++++++++++++++++++++ */
 
 module.exports.getLogout = function (req, res, next) {
   
-  req.logout()
-
-    if (err) {
-      return next(err)
-    }
-
-    res.redirect('/')
+  res.redirect('/')
 
 }
 
@@ -54,20 +50,40 @@ module.exports.getLogout = function (req, res, next) {
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */
 
 module.exports.getIndex = function (req, res, next) {
-  var locals = { 
-    pageHeader: {
-      title: 'Election App 2016!'
-    },
-    subtitle: 'Log In or Sign Up to join the discussion'
+
+  console.log('>>>>>>>>>>>>>>>>>>>> server > getIndex <<<<<<<<<<<<<<<<<<<<<')
+
+  var requestOptions, path, locals
+  path = '/api/index/'
+
+  requestOptions = {
+    rejectUnauthorized: false,
+    url : apiOptions.server + path,
+    method : 'GET',
+    json : {}
   }
-  res.render('indexView', locals, function (err, html) {
 
-    if (err) {
-      return next(err)
+  request(requestOptions, function (err, response) {
 
-    } else {
-      res.send(html)
+    if (response.statusCode === 200) {
+
+      locals = {}
+
+      res.render('indexView', locals, function (err, html) {
+
+        if (err) {
+          return next(err)
+        }
+
+        res.send(html)
+        // sendJSONresponse(res, 200, { 'response': 'success', 'view': html})
+
+      })
+
+    } else{
+      // create custom error
     }
+
   })
 }
 
@@ -240,11 +256,6 @@ module.exports.getSignup = function (req, res, next) {
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */
 
-var sendJSONresponse = function (res, status, content) {
-  res.status(status)
-  res.json(content)
-}
-
 module.exports.doLoginUserHome = function (req, res, next) {
   console.log('>>>>>>>>>>>>>>>> server > doLoginUserHome <<<<<<<<<<<<<<<<<')
 
@@ -416,15 +427,12 @@ module.exports.getDummyPage = function (req, res, next) {
 
 
 
+
 module.exports.getAbout = function (req, res, next) {
 
   console.log('>>>>>>>>>>>>>>>>>>>>> server > getAbout <<<<<<<<<<<<<<<<<<<<')
 
-  var locals = { 
-    title: 'About',
-    header: 'About!',
-    content: 'ThisGreatApp! is all about people sharing their favorite novelties across America.\n\nAut tenetur sit quam aliquid quia dolorum voluptate. Numquam itaque et hic reiciendis. Et eligendi quidem officia maiores. Molestiae ex sed vel architecto nostrum. Debitis culpa omnis perspiciatis vel eum. Vitae doloremque dolor enim aut minus.\n\nPossimus quaerat enim voluptatibus provident. Unde commodi ipsum voluptas ut velit. Explicabo voluptas at alias voluptas commodi. Illum et nihil ut nihil et. Voluptas iusto sed facere maiores.'
-    }
+  var locals = {}
 
   /*
   res.sendFile(path.join(__dirname, '../../public/views', 'layoutAboutViewMini.html'))
@@ -445,9 +453,6 @@ module.exports.getAbout = function (req, res, next) {
   })
 
 }
-
-
-
 
 module.exports.getContact = function (req, res, next) {
   var locals = { 

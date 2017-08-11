@@ -20,8 +20,12 @@ router.use(function (req, res, next) {
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-router.get('/loginview/init', apiControllers.ajaxLoginViewInit)
+router.get('/index', apiControllers.getIndex)
 router.get('/indexview/init', apiControllers.ajaxIndexViewInit)
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+router.get('/loginview/init', apiControllers.ajaxLoginViewInit)
 router.get('/userhomeview/init', apiControllers.ajaxUserHomeViewInit)
 router.get('/resourcesview/init', apiControllers.ajaxResourcesViewInit)
 
