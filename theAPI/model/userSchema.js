@@ -114,7 +114,7 @@ userSchema.methods.setPassword = function (password, cb) {
   })
 }
 
-userSchema.methods.checkPassword = function (password, cb) {
+userSchema.methods.validatePassword = function (password, cb) {
   
   var result
   var self = this

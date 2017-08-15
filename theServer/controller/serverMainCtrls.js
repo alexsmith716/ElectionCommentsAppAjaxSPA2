@@ -51,7 +51,7 @@ module.exports.getLogout = function (req, res, next) {
 
 module.exports.getIndex = function (req, res, next) {
 
-  console.log('>>>>>>>>>>>>>>>>>>>> server > getIndex <<<<<<<<<<<<<<<<<<<<<')
+  console.log('>>>>>>>>>>>>>>>>>>>> server > getIndex <<<<<<<<<<<<<<<<<<<<<!!!', res.locals.publicViews)
 
   var requestOptions, path, locals
   path = '/api/index/'
@@ -67,18 +67,41 @@ module.exports.getIndex = function (req, res, next) {
 
     if (response.statusCode === 200) {
 
+      var options = {
+        /*root: __dirname + '/public/',
+        dotfiles: 'deny',
+        headers: {
+            'x-timestamp': Date.now(),
+            'x-sent': true
+        }*/
+      }
+
+      // res.sendFile('index.html', { root: __dirname })
+      // res.sendFile(__dirname + '/index.html')
+      // res.sendFile(__dirname + '/index.html');
+      // res.sendFile(path.resolve(app.get('appPath') + '/index.html'))
+      
+      res.sendFile(res.locals.publicViews + '/about.html')
+      // res.sendFile(__dirname + './public/views/about.html')
+      /*
+      res.sendFile('/about.html', options, function (err) {
+        if (err) {
+          next(err);
+        } else {
+          console.log('Sent: ../public/views/about.html');
+        }
+      })
+      */
+      /*
       locals = {}
-
       res.render('indexView', locals, function (err, html) {
-
         if (err) {
           return next(err)
         }
-
         res.send(html)
         // sendJSONresponse(res, 200, { 'response': 'success', 'view': html})
-
       })
+      */
 
     } else{
       // create custom error
