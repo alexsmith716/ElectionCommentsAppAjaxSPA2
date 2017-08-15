@@ -17,6 +17,7 @@ var rfs = require('rotating-file-stream')
 var passport = require('passport')
 var createError = require('http-errors')
 var sanitize = require('./shared/sanitizeInput')
+var uglifyJs = require("uglify-js")
 var onFinished = require('on-finished')
 var renderableCustomErrorObject = require('./shared/renderableCustomErrorObject')
 var url = require('url')
@@ -67,12 +68,17 @@ setUpAuthentication()
 app.set('views', path.join(__dirname, 'theServer', 'views'))
 app.set('view engine', 'pug')
 
+var appClientFiles = {
+  'appClient/js/'
+}
+
 // app.use(favicon(__dirname + '/public/images/favicon.ico'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 
 app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, 'appClient')))
 
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */
@@ -133,6 +139,7 @@ app.use(function (req, res, next) {
 
   res.locals.currentUser = req.user
   res.locals.reqUrl = req.originalUrl
+  res.locals.publicViews = path.join(__dirname, 'appClient', 'views')
 
   var expr = /\/api/
   /*

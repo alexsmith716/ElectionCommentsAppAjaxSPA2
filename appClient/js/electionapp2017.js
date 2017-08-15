@@ -1,3 +1,8 @@
+
+(function() {
+  //
+})()
+
 $(function() {
 
   $('nav .navbar-header .navbar-toggle').on('click', function(e) {
@@ -15,4 +20,5 @@ $(function() {
       $('nav .navbar-collapse .dropdown .dropdown-toggle').attr('aria-expanded', 'false')
     }
   })
+
 });

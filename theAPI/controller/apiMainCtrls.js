@@ -789,7 +789,7 @@ module.exports.doLoginCredentials = function (req, res, next) {
             user.previouslogin = user.lastlogin
             user.lastlogin = new Date()
 
-            user.save(function (err, location) {
+            user.save(function (err) {
 
               if (err) {
                 return next(err)
