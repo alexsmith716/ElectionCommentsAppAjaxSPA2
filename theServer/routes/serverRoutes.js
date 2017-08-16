@@ -44,7 +44,6 @@ router.get('/notifyerror', serverControllers.getNotifyError)
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-//router.post('/userhome', csrfProtection, auth.jwtAuthAPI, serverControllers.doLoginUser)
 router.get('/loginuserhome', auth.jwtAuthAPI, serverControllers.doLoginUserHome)
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

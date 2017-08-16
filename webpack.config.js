@@ -1,29 +1,30 @@
 
 var path = require('path')
-var fileLoader = require('file-loader')
-var pugHtmlLoader = require('pug-html-loader')
 
 module.exports = {
 
-  entry: './app.js',
-
-  output: {
-    path: path.resolve(__dirname, 'build'),
-    publicPath: '/assets/',
-    filename: 'bundle.js'
+  entry: {
+    app: './theServer/views/webpackPugEntry.js'
   },
 
   module: {
-    loaders: [
-      { test: /\.pug$/, loaders: ['file-loader?name=[path][name].html', 'pug-html-loader?pretty&exports=false'] }
-    ]
+    rules: [{
+      test: /\.pug/,
+      use: [
+        {
+          loader: 'file-loader?name=[path][name].html&context=./pug',
+          options: {} 
+        },
+        {
+          loader: 'pug-loader?pretty&exports=false'
+        }
+      ]
+    }]
+  },
+
+  output: {
+    filename: '[path][name].html',
+    path: path.join(__dirname, 'appClient', 'views')
   }
+
 }
-
-// file-loader?name=[path][name].html&context=./pug
-// You can put the requireAll call to a new entry file and ignore the js output of it 
-
-// Next you need to require all your pug files in your entry file
-
-// function requireAll (r) { r.keys().forEach(r); }
-// requireAll(require.context('./', true, /\.pug$/))
