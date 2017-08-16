@@ -9,7 +9,7 @@ module.exports = {
 
   module: {
     rules: [{
-      test: /\.pug/,
+      test: /\.pug$/,
       use: [
         {
           loader: 'file-loader',
@@ -19,8 +19,11 @@ module.exports = {
           } 
         },
         {
-          loader: 'pug-loader',
-          options: {}
+          loader: 'pug-html-loader',
+          options: {
+            pretty: true,
+            exports: false
+          }
         }
       ]
     }]
