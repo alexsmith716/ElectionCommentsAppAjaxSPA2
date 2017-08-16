@@ -12,11 +12,15 @@ module.exports = {
       test: /\.pug/,
       use: [
         {
-          loader: 'file-loader?name=[path][name].html&context=./pug',
-          options: {} 
+          loader: 'file-loader',
+          options: {
+            name: '[path][name].html',
+            context: './pug'
+          } 
         },
         {
-          loader: 'pug-loader?pretty&exports=false'
+          loader: 'pug-loader',
+          options: {}
         }
       ]
     }]
