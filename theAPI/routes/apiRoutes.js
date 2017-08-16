@@ -32,7 +32,6 @@ router.get('/resourcesview/init', apiControllers.ajaxResourcesViewInit)
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 router.post('/logincredentials', csrfProtection, apiControllers.doLoginCredentials)
-// router.get('/loginuser', csrfProtection, auth.jwtAuthAPI, apiControllers.doLoginUser)
 router.post('/loginuserhome', auth.jwtAuthAPI, apiControllers.doLoginUserHome)
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

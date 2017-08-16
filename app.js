@@ -68,9 +68,10 @@ setUpAuthentication()
 app.set('views', path.join(__dirname, 'theServer', 'views'))
 app.set('view engine', 'pug')
 
-var appClientFiles = {
-  'appClient/js/'
-}
+
+//var appClientFiles = {
+  //'appClient/js/'
+//}
 
 // app.use(favicon(__dirname + '/public/images/favicon.ico'))
 app.use(bodyParser.json())
