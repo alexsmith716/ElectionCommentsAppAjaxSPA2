@@ -81,7 +81,7 @@ module.exports.getIndex = function (req, res, next) {
       // res.sendFile(__dirname + '/index.html');
       // res.sendFile(path.resolve(app.get('appPath') + '/index.html'))
       
-      res.sendFile(res.locals.publicViews + '/about.html')
+      res.sendFile(res.locals.publicViews + '/index.html')
       // res.sendFile(__dirname + './public/views/about.html')
       /*
       res.sendFile('/about.html', options, function (err) {

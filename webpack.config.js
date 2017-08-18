@@ -1,11 +1,13 @@
 
 var path = require('path')
 
+// entry: entry point for the bundle
+// if entry passed an object, entry: {app: './app.js'}, the key is the chunk name
+// hence the ability of multiple entry chunks / code splitting / multiple bundles
+
 module.exports = {
 
-  entry: {
-    app: './theServer/views/webpackPugEntry.js'
-  },
+  entry: './webpackPugEntry.js',
 
   module: {
     rules: [{
@@ -14,15 +16,15 @@ module.exports = {
         {
           loader: 'file-loader',
           options: {
-            name: '[path][name].html',
+            name: '[name].html',
             context: './pug'
           } 
         },
         {
           loader: 'pug-html-loader',
           options: {
-            pretty: true,
-            exports: false
+            // options to pass to the compiler same as: https://pugjs.org/api/reference.html
+            data: {} // set of data to pass to the pug render
           }
         }
       ]
@@ -30,7 +32,7 @@ module.exports = {
   },
 
   output: {
-    filename: '[path][name].html',
+    filename: '[name].html',
     path: path.join(__dirname, 'appClient', 'views')
   }
 
