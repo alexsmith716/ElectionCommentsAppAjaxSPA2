@@ -200,10 +200,12 @@ app.use(function (req, res, next) {
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */
 
-app.use('/', serverRoutes)
+//app.use('/', serverRoutes)
 app.use('/api', apiRoutes)
 
-// app.set('view cache', true)
+app.use(function(req, res) {
+  res.sendFile(path.join(__dirname, 'appClient', 'views', 'index.html'));
+})
 
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */

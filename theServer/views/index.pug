@@ -10,18 +10,12 @@ html(lang="en-US")
     meta(http-equiv="X-UA-Compatible' content='IE=edge")
     meta(name="viewport", content="width=device-width, initial-scale=1")
     meta(name="description" content="Election App 2017")
-    block metas
-
-    block title
 
     link(href='data:image/x-icon;', type='image/x-icon', rel='shortcut icon') 
     intercept-url(pattern="/favicon.ico" access="ROLE_ANONYMOUS")
     link(href='/vendor/bootstrap/css/bootstrap.min.css', rel='stylesheet')
     link(href='/css/electionapp2017.css', rel='stylesheet')
     link(href='/vendor/font-awesome/css/font-awesome.min.css', rel='stylesheet', type="text/css")
-    block links
-
-    block headScripts
 
     script.
       var isSafari = (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1)
