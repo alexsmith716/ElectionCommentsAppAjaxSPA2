@@ -37,7 +37,7 @@ gulp.task('pug',function (cb) {
       gulp.src('./appClient/viewTemplates/**/*.pug'),
       pug({
         doctype: 'html',
-        pretty: false
+        pretty: true
       }),
       gulp.dest('./appClientPublic/views')
     ],
@@ -46,8 +46,6 @@ gulp.task('pug',function (cb) {
 })
 
 gulp.task('watch', function () {
-  //return watch('./appClient/viewTemplates/**/*.pug', { ignoreInitial: false })
-  //.pipe(gulp.dest('pug'))
   gulp.watch('./appClient/js/**/*.js', ['compress'])
   gulp.watch('./appClient/viewTemplates/**/*.pug', ['pug'])
 })
