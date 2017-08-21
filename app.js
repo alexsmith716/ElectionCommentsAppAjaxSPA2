@@ -140,7 +140,7 @@ app.use(function (req, res, next) {
 
   res.locals.currentUser = req.user
   res.locals.reqUrl = req.originalUrl
-  res.locals.publicViews = path.join(__dirname, 'appClient', 'views')
+  res.locals.publicViews = path.join(__dirname, 'appClientPublic', 'views')
 
   var expr = /\/api/
   /*
@@ -204,7 +204,7 @@ app.use(function (req, res, next) {
 app.use('/api', apiRoutes)
 
 app.use(function(req, res) {
-  res.sendFile(path.join(__dirname, 'appClient', 'views', 'index.html'));
+  res.sendFile(path.join(__dirname, 'appClientPublic', 'views', 'index.html'));
 })
 
 /* +++++++++++++++++++++++++++++++++++++++++++++++++ */
