@@ -770,12 +770,7 @@ module.exports.doLoginCredentials = function (req, res, next) {
           return next(err)
         }
 
-        if (!user) {
-
-          console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> doLoginCredentials > passport.authenticate > NO USER <<<<<<<<<<<<')
-          sendJSONresponse(res, 201, { 'response': 'error' })
-
-        } else {
+        if (user) {
 
           console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> doLoginCredentials > passport.authenticate > YES USER <<<<<<<<<<<<')
 
@@ -804,10 +799,16 @@ module.exports.doLoginCredentials = function (req, res, next) {
 
               }
             })
-
           })
+
+        } else {
+
+          console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> doLoginCredentials > passport.authenticate > NO USER <<<<<<<<<<<<')
+          sendJSONresponse(res, 201, { 'response': 'error', 'message': info})
+
         }
-      })(req, res)
+      })(req, res, next)
+
     } else {
       sendJSONresponse(res, 201, { 'response': 'error', 'validatedData': validatedResponse })
     }
@@ -872,11 +873,13 @@ module.exports.ajaxSignUpUser = function (req, res, next) {
       newUser.city = req.body.city
       newUser.state = req.body.state
 
+      newUser.setPassword(req.body.password, function (err, user) {
+
         if (err) {
           return next(err)
         }
 
-        newUser.setPassword(req.body.password, function (err, result) {
+        user.save(function (err) {
 
           if (err) {
             return next(err)
@@ -888,25 +891,44 @@ module.exports.ajaxSignUpUser = function (req, res, next) {
               return next(err)
             }
 
-            if (!user) {
+            if (user) {
 
-              sendJSONresponse(res, 201, { 'response': 'error' })
+              console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ajaxSignUpUser > passport.authenticate > YES USER <<<<<<<<<<<<')
 
-            } else {
+              user.generateJWT(function (err, token) {
 
-              req.logIn(user, function (err) {
-
-                if (err) { 
+                if (err) {
+                  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ajaxSignUpUser > generateJWT > ERROR: ', err)
                   return next(err)
                 }
 
-                sendJSONresponse(res, 201, { 'response': 'success', 'redirect': 'http://localhost:3000/userhome' })
+                user.save(function (err) {
 
+                  if (err) {
+                    return next(err)
+                    
+                  } else {
+
+                    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ajaxSignUpUser > generateJWT > USER: ', user)
+                    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ajaxSignUpUser > generateJWT > TOKEN: ', token)
+
+                    // sendJSONresponse(res, 200, { 'response': 'success', 'token': token, 'redirect': 'http://127.0.0.1:3000/loginuserhome' })
+                    // sendJSONresponse(res, 200, { 'response': 'success', 'token': token, 'redirect': 'http://127.0.0.1:3000/userhometemp' })
+
+                  }
+                })
               })
-            }
-          })(req, res, next)
 
+            } else {
+
+              console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ajaxSignUpUser > passport.authenticate > NO USER <<<<<<<<<<<<')
+              sendJSONresponse(res, 201, { 'response': 'error', 'message': info})
+
+            }
+
+          })(req, res, next)
         })
+      })
 
     }else{
       sendJSONresponse(res, 201, { 'response': 'error', 'validatedData': validatedResponse })
